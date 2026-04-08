@@ -101,7 +101,7 @@
                     type: "intro",
                     title: "قبل أن نبدأ",
                     theme: "sky",
-                    description: "أهلاً بك في رحلة ممتعة لتعلم (الوصف الممنوع من الصرف). يُمنع الوصف من الصرف (أي لا يُنوّن ويُجر بالفتحة) في أربع حالات:",
+                    description: "يُمنع الوصف من الصرف (أي لا يُنوّن ويُجر بالفتحة) في أربع حالات:",
                     content: [
                         { 
                             title: "١- وزن (أَفْعَل)", 
@@ -144,7 +144,7 @@
                         { front: "أُخَرَ", back: "جمع كلمة (أُخرى)", explanation: "فعدة من أيامٍ أُخَر", hint: "فعدة من أيام..." },
                         { front: "أَحْمَد", back: "عَلَم وليس وصفًا!", explanation: "احذر! أحمد ممنوع من الصرف لكن لأنه (علم على وزن الفعل) وليس (وصفًا).", hint: "هل هو اسم شخص أم صفة؟" },
                         { front: "ظَمْآن", back: "وصف على وزن (فَعْلان)", explanation: "مثل عطشان وغضبان.", hint: "مؤنثه ظمأى." },
-                        { front: "مَثْنَى", back: "وصف عددي على وزن (مَفْعَل)", explanation: "مثل قوله تعالى: (مثنى وثُلاث ورُباع)", hint: "عدد على وزن؟." },
+                        { front: "مَثْنَى", back: "وصف عددي على وزن (مَفْعَل)", explanation: "مثل قوله تعالى: (مثنى وثُلاث ورُباع)", hint: "عدد على وزن؟" },
                         { front: "أَفْضَل", back: "وصف على وزن (أَفْعَل)", explanation: "يُمنع من الصرف بشرط ألا يُضاف أو يُعرّف بـ (أل).", hint: "على وزن أكسل، أنشط." }
                     ]
                 },
@@ -486,7 +486,7 @@
                 }
                 let gridHTML = '<div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 w-full fade-in">';
                 sectionData.content.forEach(block => {
-                    gridHTML += `<div class="bg-${block.theme}-50 p-6 md:p-8 rounded-3xl border-2 border-${block.theme}-200 hover:-translate-y-2 hover:shadow-lg transition-all duration-300 flex flex-col items-center gap-4 group cursor-default text-center">${block.icon ? `<div class="mb-2 bg-white p-4 rounded-full shadow-md border border-${block.theme}-100 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300">${block.icon}</div>` : ''}<h3 class="text-2xl md:text-3xl font-bold text-${block.theme}-800 leading-snug w-full">${block.title}</h3><div class="text-lg md:text-xl font-medium text-slate-700 leading-relaxed bg-white/60 p-5 rounded-2xl border border-${block.theme}-100 flex-grow shadow-sm w-full">${block.text}</div></div>`;
+                    gridHTML += `<div class="bg-${block.theme}-50 p-6 md:p-8 rounded-3xl border-2 border-${block.theme}-200 hover:-translate-y-2 hover:shadow-lg transition-all duration-300 flex flex-col items-center gap-4 group cursor-default text-center">${block.icon ? `<div class="mb-2 bg-white p-4 rounded-full shadow-md border border-${block.theme}-100 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300">${block.icon}</div>` : ''}<h3 class="text-2xl md:text-3xl font-bold text-${block.theme}-800 leading-snug w-full">${block.title}</h3><div class="text-lg md:text-xl font-medium text-slate-700 leading-relaxed bg-white/60 p-5 rounded-2xl border border-${block.theme}-100 flex-grow shadow-sm w-full text-right">${block.text}</div></div>`;
                 });
                 gridHTML += '</div>';
                 return `<div class="max-w-4xl mx-auto space-y-6">${headerHTML}${gridHTML}<div class="flex justify-center mt-12 pt-4 fade-in"><button onclick="App.handleNextSection()" class="bg-${sectionData.theme}-600 hover:bg-${sectionData.theme}-700 text-white font-semibold text-xl md:text-2xl py-4 px-12 rounded-full shadow-lg flex items-center gap-3 active:scale-95 transition-all duration-300">هيا نبدأ التدريبات ${ICONS.arrowLeft}</button></div></div>`;
