@@ -101,7 +101,7 @@
                     type: "intro",
                     title: "قبل أن نبدأ",
                     theme: "sky",
-                    description: "أهلاً بك في رحلة ممتعة لتعلم (الوصف الممنوع من الصرف). يُمنع الوصف من الصرف (أي لا يُنوّن ويُجر بالفتحة) في أربع حالات رئيسية:",
+                    description: "أهلاً بك في رحلة ممتعة لتعلم (الوصف الممنوع من الصرف). يُمنع الوصف من الصرف (أي لا يُنوّن ويُجر بالفتحة) في أربع حالات:",
                     content: [
                         { 
                             title: "١- وزن (أَفْعَل)", 
@@ -144,7 +144,7 @@
                         { front: "أُخَرَ", back: "جمع كلمة (أُخرى)", explanation: "فعدة من أيامٍ أُخَر", hint: "فعدة من أيام..." },
                         { front: "أَحْمَد", back: "عَلَم وليس وصفًا!", explanation: "احذر! أحمد ممنوع من الصرف لكن لأنه (علم على وزن الفعل) وليس (وصفًا).", hint: "هل هو اسم شخص أم صفة؟" },
                         { front: "ظَمْآن", back: "وصف على وزن (فَعْلان)", explanation: "مثل عطشان وغضبان.", hint: "مؤنثه ظمأى." },
-                        { front: "مَثْنَى", back: "وصف عددي على وزن (مَفْعَل)", explanation: "مثل قوله تعالى: (مثنى وثُلاث ورُاع)", hint: "عدد محول للضعف." },
+                        { front: "مَثْنَى", back: "وصف عددي على وزن (مَفْعَل)", explanation: "مثل قوله تعالى: (مثنى وثُلاث ورُباع)", hint: "عدد على وزن؟." },
                         { front: "أَفْضَل", back: "وصف على وزن (أَفْعَل)", explanation: "يُمنع من الصرف بشرط ألا يُضاف أو يُعرّف بـ (أل).", hint: "على وزن أكسل، أنشط." }
                     ]
                 },
@@ -190,8 +190,8 @@
                             explanation: "كلمة (ظمآن) ممنوعة من الصرف لأنها وصف على وزن (فَعْلان)."
                         },
                         {
-                            text: "لا فرق بين أبيض وأسود.",
-                            words: ["لا", "فرق", "بين", "أبيضَ", "وأسودَ"],
+                            text: "لا فرق بين أبيض وغيره.",
+                            words: ["لا", "فرق", "بين", "أبيضَ", "وغيره"],
                             targetIndex: 3, // سنعتبر أبيض هي الهدف الأول (ممكن برمجة الاثنين لاحقاً، لكن لتسهيل المهمة للمتعلم)
                             hint: "ابحث عن كلمة تدل على وصف على وزن أَفْعَل.",
                             explanation: "كلمة (أبيض) ممنوعة من الصرف لأنها وصف على وزن (أَفْعَل). وكذلك أسود."
@@ -214,14 +214,14 @@
                             text: "هل أنت جوعان الآن؟",
                             words: ["هل", "أنت", "جوعانُ", "الآن؟"],
                             targetIndex: 2,
-                            hint: "وصف تدل على الجوع.",
+                            hint: "وصف يدل على الجوع.",
                             explanation: "كلمة (جوعان) ممنوعة من الصرف لأنها وصف على وزن (فَعْلان)."
                         },
                         {
                             text: "اشتريت قلمًا أزرق.",
                             words: ["اشتريتُ", "قلمًا", "أزرقَ"],
                             targetIndex: 2,
-                            hint: "لون على وزن أفعل.",
+                            hint: "وصف على وزن أفعل.",
                             explanation: "كلمة (أزرق) ممنوعة من الصرف لأنها وصف على وزن (أَفْعَل)."
                         },
                         {
@@ -286,8 +286,8 @@
                             explanation: "(أبيضُ) خبر مرفوع بالضمة (بدون تنوين) لأنه وصف على وزن أفعل." 
                         },
                         { 
-                            text: "دخل الطلابُ الفصل مَثنًى مَثنًى.", 
-                            words: ["دخل", "الطلابُ", "الفصل", "مَثنًى", "مَثنًى"],
+                            text: "دخل الطلابُ الفصل مَثنًى.", 
+                            words: ["دخل", "الطلابُ", "الفصل", "مَثنًى"],
                             errorWordIndex: 3,
                             options: ["مَثنى", "مَثنىٌ", "مَثنًا"],
                             correctOptionIndex: 0,
@@ -383,7 +383,7 @@
                     }
                     else if (sec.type === 'flashcards') {
                         this.state.progress[sec.id] = { answered: 0, total: sec.cards.length, score: 0 };
-                        this.state.sectionData[sec.id] = { cards: sec.cards, currentIndex: 0, isFlipped: false, animatingOut: false };
+                        this.state.sectionData[sec.id] = { cards: sec.cards, currentIndex: 0, isFlipped: false, animatingOut: false, showHint: false };
                     }
                     else if (sec.type === 'sort') {
                         this.state.progress[sec.id] = { answered: 0, total: sec.questions.length, score: 0 };
@@ -616,7 +616,7 @@
                 html += `<div class="relative w-full min-h-[20rem] flex flex-col items-center justify-center p-4 md:p-6 transition-all duration-500 perspective">`;
                 if (!isComplete) {
                     const card = cards[currentIndex]; const flippedClass = isFlipped ? 'rotate-y-180' : '';
-                    html += `<div class="w-full max-w-lg h-80 relative perspective ${animatingOut ? 'fly-out' : 'fade-in'}"><div id="flashcard-inner-${sectionId}" class="w-full h-full absolute preserve-3d flip-transition cursor-pointer ${flippedClass}" onclick="App.handleFlashcardFlip('${sectionId}')"><div class="absolute w-full h-full backface-hidden bg-white border-2 border-slate-200 rounded-3xl shadow-lg flex flex-col items-center justify-center p-8 text-center hover:border-${theme}-300 hover:shadow-xl transition-all"><span class="absolute top-6 right-6 text-${theme}-600 font-bold text-lg md:text-xl">البطاقة ${toArabicNum(currentIndex + 1)}</span><div class="text-slate-400 mb-4 animate-pulse">${ICONS.flipIcon}</div><h3 class="text-4xl md:text-5xl font-bold text-slate-800 leading-snug">${card.front}</h3></div><div class="absolute w-full h-full backface-hidden bg-slate-50 border-2 border-${theme}-400 rounded-3xl shadow-lg flex flex-col items-center justify-center p-8 text-center rotate-y-180"><h3 class="text-3xl font-bold text-${theme}-700 mb-4">${card.back}</h3><p class="text-xl font-medium text-slate-700 leading-relaxed mb-6">${card.explanation}</p><div class="w-full grid grid-cols-2 gap-3 mt-auto relative z-20" onclick="event.stopPropagation()"><button onclick="App.handleFlashcardAnswer('${sectionId}', true)" class="bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-3 rounded-xl transition-transform active:scale-95 shadow-md flex items-center justify-center gap-2 text-lg">${ICONS.checkCircle} عرفتها</button><button onclick="App.handleFlashcardAnswer('${sectionId}', false)" class="bg-rose-500 hover:bg-rose-600 text-white font-bold py-3 rounded-xl transition-transform active:scale-95 shadow-md flex items-center justify-center gap-2 text-lg">${ICONS.xCircle} أخطأت</button></div></div></div></div>`;
+                    html += `<div class="w-full max-w-lg h-80 relative perspective ${animatingOut ? 'fly-out' : 'fade-in'}"><div id="flashcard-inner-${sectionId}" class="w-full h-full absolute preserve-3d flip-transition cursor-pointer ${flippedClass}" onclick="App.handleFlashcardFlip('${sectionId}')"><div class="absolute w-full h-full backface-hidden bg-white border-2 border-slate-200 rounded-3xl shadow-lg flex flex-col items-center justify-center p-8 text-center hover:border-${theme}-300 hover:shadow-xl transition-all"><span class="absolute top-6 right-6 text-${theme}-600 font-bold text-lg md:text-xl">البطاقة ${toArabicNum(currentIndex + 1)}</span><button onclick="event.stopPropagation(); App.toggleHint('${sectionId}', ${currentIndex})" class="absolute top-6 left-6 flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm md:text-base font-bold transition-all active:scale-95 text-amber-500 hover:bg-amber-50">💡 تلميح</button><div class="text-slate-400 mb-4 animate-pulse">${ICONS.flipIcon}</div><h3 class="text-4xl md:text-5xl font-bold text-slate-800 leading-snug">${card.front}</h3><div class="${state.showHint ? 'block smooth-expand' : 'hidden'} absolute bottom-6 w-[85%]"><div class="bg-amber-50 text-amber-900 p-3 rounded-xl text-lg font-medium border border-amber-200 shadow-sm">${card.hint}</div></div></div><div class="absolute w-full h-full backface-hidden bg-slate-50 border-2 border-${theme}-400 rounded-3xl shadow-lg flex flex-col items-center justify-center p-8 text-center rotate-y-180"><h3 class="text-3xl font-bold text-${theme}-700 mb-4">${card.back}</h3><p class="text-xl font-medium text-slate-700 leading-relaxed mb-6">${card.explanation}</p><div class="w-full grid grid-cols-2 gap-3 mt-auto relative z-20" onclick="event.stopPropagation()"><button onclick="App.handleFlashcardAnswer('${sectionId}', true)" class="bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-3 rounded-xl transition-transform active:scale-95 shadow-md flex items-center justify-center gap-2 text-lg">${ICONS.checkCircle} عرفتها</button><button onclick="App.handleFlashcardAnswer('${sectionId}', false)" class="bg-rose-500 hover:bg-rose-600 text-white font-bold py-3 rounded-xl transition-transform active:scale-95 shadow-md flex items-center justify-center gap-2 text-lg">${ICONS.xCircle} أخطأت</button></div></div></div></div>`;
                 } else { html += `<div class="text-3xl md:text-4xl font-bold text-emerald-500 flex flex-col items-center gap-4 fade-in py-10 bg-white border-2 border-emerald-200 w-full max-w-lg rounded-3xl shadow-lg"><span class="text-6xl">🏆</span><span>انتهت البطاقات!</span></div>`; }
                 html += `</div></div>`;
                 if (isComplete) { const progress = this.state.progress[sectionId]; html += `<div class="mt-8 p-8 md:p-10 bg-white border-2 border-${theme}-200 rounded-2xl shadow-sm text-center fade-in max-w-2xl mx-auto w-full"><h3 class="text-2xl md:text-3xl font-semibold text-slate-700 mb-6">نتيجتك في قسم (${sectionData.title})</h3><div class="text-4xl md:text-5xl font-bold text-${theme}-600 flex items-center justify-center gap-3"><span>${toArabicNum(progress.score)}</span><span class="text-2xl md:text-3xl text-slate-400 font-medium mt-1">من</span><span>${toArabicNum(progress.total)}</span></div></div>`; }
@@ -626,10 +626,10 @@
                 const sectionId = sectionData.id; const theme = sectionData.theme; const state = this.state.sectionData[sectionId]; const { questions, currentIndex, status, placedItems, animatingOut } = state; const isComplete = currentIndex >= questions.length;
                 let html = ''; const currentQState = isComplete ? null : questions[currentIndex]; const currentQuestion = isComplete ? null : currentQState.originalQuestion; const showHint = isComplete ? false : currentQState.showHint; const hintFadeClass = (currentQState && currentQState.hintAnimate) ? 'smooth-expand' : ''; const shakeClass = status === 'incorrect' ? 'shake' : '';
                 let boxesHTML = ''; sectionData.categories.forEach(cat => {
-                    const boxTheme = cat.theme || 'sky'; const placedHtml = placedItems[cat.id].map(item => `<div class="mt-2 p-3 rounded-lg text-lg md:text-xl font-semibold border border-${boxTheme}-100 bg-white shadow-sm leading-snug fade-in text-center text-slate-700">${item.text}</div>`).join('');
-                    let boxClass = `flex flex-col w-full p-4 rounded-xl border-2 transition-all duration-300 min-h-[10rem] `;
+                    const boxTheme = cat.theme || 'sky'; const placedHtml = placedItems[cat.id].map(item => `<div class="mt-2 p-3 md:p-4 rounded-xl text-xl md:text-2xl font-bold border border-${boxTheme}-200 bg-white shadow-sm leading-snug fade-in text-center text-slate-700">${item.text}</div>`).join('');
+                    let boxClass = `flex flex-col w-full p-4 md:p-5 rounded-xl border-2 transition-all duration-300 min-h-[12rem] `;
                     if (!isComplete && status !== 'correct' && !animatingOut) { boxClass += `border-${boxTheme}-300 bg-${boxTheme}-50 cursor-pointer hover:shadow-md hover:brightness-95 active:scale-[0.98]`; } else { boxClass += `border-${boxTheme}-300 bg-${boxTheme}-50 cursor-default`; }
-                    boxesHTML += `<div ${(!isComplete && status !== 'correct' && !animatingOut) ? `onclick="App.handleClassifyClick('${sectionId}', '${cat.id}')"` : ''} class="${boxClass}"><h3 class="font-bold text-lg md:text-xl text-center text-${boxTheme}-800 border-b border-black/10 pb-3 flex items-center justify-center gap-2">${ICONS.tray} ${cat.label}</h3><div class="flex flex-col gap-1 flex-grow mt-1">${placedHtml}</div></div>`;
+                    boxesHTML += `<div ${(!isComplete && status !== 'correct' && !animatingOut) ? `onclick="App.handleClassifyClick('${sectionId}', '${cat.id}')"` : ''} class="${boxClass}"><h3 class="font-bold text-xl md:text-2xl text-center text-${boxTheme}-800 border-b border-black/10 pb-4 flex items-center justify-center gap-2">${ICONS.tray} ${cat.label}</h3><div class="flex flex-col gap-2 flex-grow mt-2">${placedHtml}</div></div>`;
                 });
                 html += `<div class="flex flex-col items-center w-full gap-6 fade-in">`;
                 if (sectionData.description) { html += `<div class="text-center w-full"><p class="text-lg md:text-xl text-${theme}-800 font-semibold bg-${theme}-50 p-4 md:p-5 rounded-2xl shadow-sm">${sectionData.description}</p></div>`; }
@@ -646,6 +646,7 @@
                 if (sectionDef.type === 'classify' || sectionDef.type === 'sort') { const q = this.state.sectionData[sectionId].questions[idx]; q.showHint = !q.showHint; q.hintAnimate = q.showHint; this.updateUI(); q.hintAnimate = false; } 
                 else if (sectionDef.type === 'error_correction') { const qState = this.state.sectionData[sectionId][idx]; qState.showHint = !qState.showHint; document.getElementById(`${sectionId}-wrapper-${idx}`).innerHTML = this.renderErrorCard(qState, idx, sectionDef.theme, sectionId); } 
                 else if (sectionDef.type === 'spotting') { const qState = this.state.sectionData[sectionId][idx]; qState.showHint = !qState.showHint; document.getElementById(`${sectionId}-wrapper-${idx}`).innerHTML = this.renderSpottingCard(qState, idx, sectionDef.theme, sectionId); } 
+                else if (sectionDef.type === 'flashcards') { const state = this.state.sectionData[sectionId]; state.showHint = !state.showHint; this.updateUI(); }
                 else { const qState = this.state.sectionData[sectionId][idx]; qState.showHint = !qState.showHint; qState.hintAnimate = qState.showHint; document.getElementById(`${sectionId}-wrapper-${idx}`).innerHTML = this.renderQuestionCard(qState, idx, sectionId, sectionDef.theme, sectionDef.type); qState.hintAnimate = false; }
             },
             handleAnswer(sectionId, qIndex, optIndex) {
@@ -665,7 +666,7 @@
                 const state = this.state.sectionData[sectionId]; if (state.animatingOut) return;
                 this.state.progress[sectionId].answered++; if (isCorrect) this.state.progress[sectionId].score++;
                 state.animatingOut = true; this.updateUI();
-                setTimeout(() => { state.currentIndex++; state.isFlipped = false; state.animatingOut = false; if (state.currentIndex >= state.cards.length) this.checkFinalEvaluation(); this.updateUI(); }, 400);
+                setTimeout(() => { state.currentIndex++; state.isFlipped = false; state.animatingOut = false; state.showHint = false; if (state.currentIndex >= state.cards.length) this.checkFinalEvaluation(); this.updateUI(); }, 400);
             },
             handleErrorWordClick(sectionId, qIndex, wIndex) {
                 const qState = this.state.sectionData[sectionId][qIndex]; if (qState.step !== 1) return;
@@ -728,7 +729,7 @@
                 if (secDef.type === 'mcq') this.state.sectionData[sectionId] = secDef.questions.map(q => ({ originalQuestion: q, options: shuffleArray(q.options.map((opt, oIdx) => ({ text: opt, isCorrect: oIdx === q.correct }))), answered: false, selectedOption: null, showHint: false }));
                 else if (secDef.type === 'classify') { let placedItems = {}; secDef.categories.forEach(c => placedItems[c.id] = []); this.state.sectionData[sectionId] = { questions: shuffleArray(secDef.questions).map(q => ({ originalQuestion: q, showHint: false })), currentIndex: 0, status: 'idle', placedItems: placedItems, animatingOut: false }; }
                 else if (secDef.type === 'error_correction') this.state.sectionData[sectionId] = secDef.questions.map(q => ({ originalQuestion: q, options: shuffleArray(q.options.map((opt, oIdx) => ({ text: opt, isCorrect: oIdx === q.correctOptionIndex }))), step: 1, selectedWordIndex: null, selectedOption: null, showHint: false, shakeWordIndex: null }));
-                else if (secDef.type === 'flashcards') this.state.sectionData[sectionId] = { cards: secDef.cards, currentIndex: 0, isFlipped: false, animatingOut: false };
+                else if (secDef.type === 'flashcards') this.state.sectionData[sectionId] = { cards: secDef.cards, currentIndex: 0, isFlipped: false, animatingOut: false, showHint: false };
                 else if (secDef.type === 'sort') this.state.sectionData[sectionId] = { questions: secDef.questions.map(q => ({ originalQuestion: q, options: q.options.map((opt, i) => ({ text: opt, isCorrect: i === q.correct })), showHint: false })), currentIndex: 0, status: 'idle', animatingOut: false };
                 else if (secDef.type === 'spotting') this.state.sectionData[sectionId] = secDef.questions.map(q => ({ originalQuestion: q, answered: false, selectedWordIndex: null, showHint: false, shakeWordIndex: null })); // تحديث إرجاع نشاط صائد الكلمات
                 this.updateUI(); this.scrollToContent();
