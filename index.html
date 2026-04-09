@@ -186,28 +186,32 @@
                     description: "يُمنع الوصف من الصرف (لا يُنوّن ـ علامة جره الفتحة) في أربع حالات:",
                     content: [
                         {
+                            icon: "🥇",
                             title: "١- وزن (أَفْعَل)",
-                            text: "<p>وصف على وزن (أَفْعَل).</p><p><b>مثل:</b> أفضل، أحسن، أبيض، أسود.</p><p><i>انتبه: (أحمد) علم وليس وصفًا!</i></p>",
-                            theme: "cyan",
-                            icon: `<svg class="w-7 h-7 md:w-8 md:h-8 text-cyan-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`
+                            desc: "كل صفة تأتي على وزن (أَفْعَل) وتدل على تفضيل أو لون أو عيب.",
+                            examples: "<p><b>مثل:</b> أفضل، أحسن، أبيض، أسود.</p><p><i>انتبه: (أحمد) علم وليس وصفًا!</i></p>",
+                            theme: "blue"
                         },
                         {
+                            icon: "💧",
                             title: "٢- وزن (فَعْلان)",
-                            text: "<p>وصف على وزن (فَعْلان).</p><p><b>مثل:</b> ظَمْآن، غَضْبان، جَوْعان.</p><p><i>(لا يمر الماء على ظمآنَ).</i></p>",
-                            theme: "emerald",
-                            icon: `<svg class="w-7 h-7 md:w-8 md:h-8 text-emerald-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z"/></svg>`
+                            desc: "الوصف المنتهي بألف ونون زائدتين والذي مؤنثه على وزن (فَعْلَى).",
+                            examples: "<p><b>مثل:</b> ظَمْآن، غَضْبان، جَوْعان.</p><p><i>(لا يمر الماء على ظمآنَ).</i></p>",
+                            theme: "emerald"
                         },
                         {
-                            title: "٣- وزن (فُعَال) أو (مَفْعَل)",
-                            text: "<p>الأعداد من (١ إلى ١٠) على وزن فُعَال ومَفْعَل.</p><p><b>مثل:</b> مَثْنَى، ثُلاث، رُباع.</p><p><i>(حضر الطلاب خُماسَ).</i></p>",
-                            theme: "violet",
-                            icon: `<svg class="w-7 h-7 md:w-8 md:h-8 text-violet-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>`
+                            icon: "🔢",
+                            title: "٣- (فُعَال) أو (مَفْعَل)",
+                            desc: "الأعداد من (١ إلى ١٠) المصوغة على هذين الوزنين لتفيد التكرار.",
+                            examples: "<p><b>مثل:</b> مَثْنَى، ثُلاث، رُباع.</p><p><i>(حضر الطلاب خُماسَ).</i></p>",
+                            theme: "amber"
                         },
                         {
+                            icon: "📚",
                             title: "٤- كلمة (أُخَر)",
-                            text: "<p>وهي جمع لكلمة (أخرى).</p><p><b>قال تعالى:</b> {فعدةٌ من أيامٍ أُخَرَ}.</p><p><i>نعت مجرور وعلامة جره الفتحة.</i></p>",
-                            theme: "indigo",
-                            icon: `<svg class="w-7 h-7 md:w-8 md:h-8 text-indigo-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>`
+                            desc: "وهي وصف على وزن (فُعَل)، وتأتي كجمع لكلمة (أخرى).",
+                            examples: "<p><b>قال تعالى:</b> {فعدةٌ من أيامٍ أُخَرَ}.</p><p><i>نعت مجرور وعلامة جره الفتحة.</i></p>",
+                            theme: "violet"
                         }
                     ]
                 },
@@ -217,7 +221,7 @@
                     id: "test_flashcards",
                     type: "flashcards",
                     title: "الوجه الآخر",
-                    theme: "amber",
+                    theme: "emerald",
                     description: "اضغط على البطاقة لتقليبها وتعرّف على سبب منع الكلمات من الصرف.",
                     cards: [
                         { front: "أَبْيَض", back: "وصف على وزن (أَفْعَل)", explanation: "لا فرق بين أبيضَ وأسودَ إلا بالتقوى.", hint: "تذكر الوزن." },
@@ -236,13 +240,13 @@
                     id: "test_classify",
                     type: "classify",
                     title: "خزانة الأوزان",
-                    theme: "emerald",
+                    theme: "amber",
                     description: "قم بتصنيف الأوصاف الممنوعة من الصرف بوضعها في صندوق الوزن المناسب.",
                     categories: [
-                        { id: 'cat_af3al', label: 'وزن أَفْعَل', theme: 'cyan' },
-                        { id: 'cat_fa3lan', label: 'وزن فَعْلان', theme: 'emerald' },
+                        { id: 'cat_af3al', label: 'وزن أَفْعَل', theme: 'sky' },
+                        { id: 'cat_fa3lan', label: 'وزن فَعْلان', theme: 'amber' },
                         { id: 'cat_number', label: 'فُعَال ومَفْعَل', theme: 'violet' },
-                        { id: 'cat_okhar', label: 'كلمة أُخَر', theme: 'indigo' }
+                        { id: 'cat_okhar', label: 'كلمة أُخَر', theme: 'teal' }
                     ],
                     questions: [
                         { text: 'أَحْسَن', categoryId: 'cat_af3al', explanation: 'لأنها على وزن (أَفْعَل).', hint: 'تفضيل.' },
@@ -564,20 +568,33 @@
             renderIntro(sectionData) {
                 let headerHTML = '';
                 if (sectionData.description) {
-                    headerHTML += `<div class="text-center mb-8 fade-in"><p class="text-lg md:text-xl text-${sectionData.theme}-800 font-semibold bg-${sectionData.theme}-50 p-4 md:p-5 rounded-2xl shadow-sm inline-block w-full">${sectionData.description}</p></div>`;
+                    headerHTML += `<div class="text-center mb-10 fade-in"><p class="text-lg md:text-xl text-${sectionData.theme}-800 font-semibold bg-${sectionData.theme}-50 bg-opacity-60 p-4 md:p-5 rounded-2xl shadow-sm inline-block w-full">${sectionData.description}</p></div>`;
                 }
-                let gridHTML = '<div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 w-full fade-in">';
+                let gridHTML = '<div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 w-full fade-in">';
+                
                 sectionData.content.forEach(block => {
-                    gridHTML += `<div class="bg-${block.theme}-50 p-6 md:p-8 rounded-3xl border-2 border-${block.theme}-200 hover:-translate-y-2 hover:shadow-lg transition-all duration-300 flex flex-col gap-4 group cursor-default">
-                        <div class="flex items-center justify-center gap-4 w-full">
-                            ${block.icon ? `<div class="bg-white p-3 rounded-2xl shadow-sm border border-${block.theme}-100 group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300 shrink-0">${block.icon}</div>` : ''}
-                            <h3 class="text-2xl md:text-3xl font-bold text-${block.theme}-800 leading-snug">${block.title}</h3>
+                    gridHTML += `
+                    <div class="bg-white border-2 border-${block.theme}-200 rounded-[2rem] p-6 md:p-8 shadow-sm hover:-translate-y-2 hover:shadow-xl transition-all duration-300 flex flex-col items-center text-center group cursor-default">
+                        
+                        <!-- Icon Box -->
+                        <div class="w-16 h-16 md:w-20 md:h-20 bg-${block.theme}-100 rounded-full flex items-center justify-center text-3xl md:text-4xl mb-6 group-hover:scale-110 group-hover:-rotate-3 transition-transform duration-300 shrink-0">
+                            ${block.icon}
                         </div>
-                        <div class="text-lg md:text-xl font-medium text-slate-700 leading-relaxed bg-white/60 p-5 rounded-2xl border border-${block.theme}-100 flex-grow shadow-sm w-full text-right space-y-4">${block.text}</div>
+                        
+                        <!-- Title & Desc -->
+                        <h3 class="text-2xl md:text-3xl font-bold text-${block.theme}-800 mb-4 leading-snug w-full">${block.title}</h3>
+                        <p class="text-lg md:text-xl font-medium text-slate-600 leading-relaxed mb-6 flex-grow w-full">${block.desc}</p>
+                        
+                        <!-- Examples Box (Soft Card) -->
+                        <div class="w-full bg-${block.theme}-50/80 rounded-2xl p-5 text-right space-y-3 mt-auto">
+                            <div class="text-lg md:text-xl font-bold text-${block.theme}-900 leading-relaxed">${block.examples}</div>
+                        </div>
+                        
                     </div>`;
                 });
+                
                 gridHTML += '</div>';
-                return `<div class="max-w-4xl mx-auto space-y-6">${headerHTML}${gridHTML}<div class="flex justify-center mt-12 pt-4 fade-in"><button onclick="App.handleNextSection()" class="bg-${sectionData.theme}-600 hover:bg-${sectionData.theme}-700 text-white font-semibold text-xl md:text-2xl py-4 px-12 rounded-full shadow-lg flex items-center gap-3 active:scale-95 transition-all duration-300">هيا نبدأ التدريبات ${ICONS.arrowLeft}</button></div></div>`;
+                return `<div class="max-w-4xl mx-auto pb-6">${headerHTML}${gridHTML}<div class="flex justify-center mt-12 pt-4 fade-in"><button onclick="App.handleNextSection()" class="bg-${sectionData.theme}-600 hover:bg-${sectionData.theme}-700 text-white font-semibold text-xl md:text-2xl py-4 px-12 rounded-full shadow-lg flex items-center gap-3 active:scale-95 transition-all duration-300">هيا نبدأ التدريبات ${ICONS.arrowLeft}</button></div></div>`;
             },
             renderStandardSection(sectionData) {
                 const sectionId = sectionData.id;
@@ -585,7 +602,7 @@
                 const isComplete = progress.total > 0 && progress.answered === progress.total;
                 const questions = this.state.sectionData[sectionId];
                 let html = '<div class="fade-in">';
-                if (sectionData.description) { html += `<div class="text-center mb-8"><p class="text-lg md:text-xl text-${sectionData.theme}-800 font-semibold bg-${sectionData.theme}-50 p-4 md:p-5 rounded-2xl shadow-sm inline-block w-full">${sectionData.description}</p></div>`; }
+                if (sectionData.description) { html += `<div class="text-center mb-8"><p class="text-lg md:text-xl text-${sectionData.theme}-800 font-semibold bg-${sectionData.theme}-50 bg-opacity-60 p-4 md:p-5 rounded-2xl shadow-sm inline-block w-full">${sectionData.description}</p></div>`; }
                 questions.forEach((qState, idx) => { html += `<div id="${sectionId}-wrapper-${idx}">${this.renderQuestionCard(qState, idx, sectionId, sectionData.theme, sectionData.type)}</div>`; });
                 if (isComplete) { html += `<div class="mt-12 p-8 md:p-10 bg-white border-2 border-${sectionData.theme}-200 rounded-2xl shadow-sm text-center max-w-2xl mx-auto w-full"><h3 class="text-2xl md:text-3xl font-semibold text-slate-700 mb-6">نتيجتك في قسم (${sectionData.title})</h3><div class="text-4xl md:text-5xl font-bold text-${sectionData.theme}-600 flex items-center justify-center gap-3"><span>${toArabicNum(progress.score)}</span><span class="text-2xl md:text-3xl text-slate-400 font-medium mt-1">من</span><span>${toArabicNum(progress.total)}</span></div></div>`; }
                 html += '</div>'; html += this.renderSectionFooterControls(sectionId, isComplete); return html;
@@ -616,7 +633,7 @@
             renderSort(sectionData) {
                 const sectionId = sectionData.id; const theme = sectionData.theme; const state = this.state.sectionData[sectionId]; const { questions, currentIndex, status, animatingOut } = state; const isComplete = currentIndex >= questions.length;
                 let html = '<div class="flex flex-col items-center w-full gap-6 fade-in">';
-                if (sectionData.description) { html += `<div class="text-center w-full"><p class="text-lg md:text-xl text-${theme}-800 font-semibold bg-${theme}-50 p-4 md:p-5 rounded-2xl shadow-sm">${sectionData.description}</p></div>`; }
+                if (sectionData.description) { html += `<div class="text-center w-full"><p class="text-lg md:text-xl text-${theme}-800 font-semibold bg-${theme}-50 bg-opacity-60 p-4 md:p-5 rounded-2xl shadow-sm">${sectionData.description}</p></div>`; }
                 let boxesHTML = ''; if (!isComplete) {
                     const colors = ['emerald', 'violet', 'cyan', 'teal', 'indigo'];
                     state.questions[currentIndex].options.forEach((opt, idx) => {
@@ -637,7 +654,7 @@
                 const isComplete = progress.total > 0 && progress.answered === progress.total;
                 const questions = this.state.sectionData[sectionId];
                 let html = '<div class="fade-in">';
-                if (sectionData.description) { html += `<div class="text-center mb-8"><p class="text-lg md:text-xl text-${sectionData.theme}-800 font-semibold bg-${sectionData.theme}-50 p-4 md:p-5 rounded-2xl shadow-sm inline-block w-full">${sectionData.description}</p></div>`; }
+                if (sectionData.description) { html += `<div class="text-center mb-8"><p class="text-lg md:text-xl text-${sectionData.theme}-800 font-semibold bg-${sectionData.theme}-50 bg-opacity-60 p-4 md:p-5 rounded-2xl shadow-sm inline-block w-full">${sectionData.description}</p></div>`; }
                 questions.forEach((qState, idx) => { html += `<div id="${sectionId}-wrapper-${idx}">${this.renderSpottingCard(qState, idx, sectionData.theme, sectionId)}</div>`; });
                 if (isComplete) { html += `<div class="mt-12 p-8 md:p-10 bg-white border-2 border-${sectionData.theme}-200 rounded-2xl shadow-sm text-center max-w-2xl mx-auto w-full"><h3 class="text-2xl md:text-3xl font-semibold text-slate-700 mb-6">نتيجتك في قسم (${sectionData.title})</h3><div class="text-4xl md:text-5xl font-bold text-${sectionData.theme}-600 flex items-center justify-center gap-3"><span>${toArabicNum(progress.score)}</span><span class="text-2xl md:text-3xl text-slate-400 font-medium mt-1">من</span><span>${toArabicNum(progress.total)}</span></div></div>`; }
                 html += '</div>'; html += this.renderSectionFooterControls(sectionId, isComplete); return html;
@@ -671,7 +688,7 @@
             renderErrorCorrection(sectionData) {
                 const sectionId = sectionData.id; const progress = this.state.progress[sectionId]; const isComplete = progress.total > 0 && progress.answered === progress.total; const questions = this.state.sectionData[sectionId];
                 let html = '<div class="fade-in">';
-                if (sectionData.description) { html += `<div class="text-center mb-8"><p class="text-lg md:text-xl text-${sectionData.theme}-800 font-semibold bg-${sectionData.theme}-50 p-4 md:p-5 rounded-2xl shadow-sm inline-block w-full">${sectionData.description}</p></div>`; }
+                if (sectionData.description) { html += `<div class="text-center mb-8"><p class="text-lg md:text-xl text-${sectionData.theme}-800 font-semibold bg-${sectionData.theme}-50 bg-opacity-60 p-4 md:p-5 rounded-2xl shadow-sm inline-block w-full">${sectionData.description}</p></div>`; }
                 questions.forEach((qState, idx) => { html += `<div id="${sectionId}-wrapper-${idx}">${this.renderErrorCard(qState, idx, sectionData.theme, sectionId)}</div>`; });
                 if (isComplete) { html += `<div class="mt-12 p-8 md:p-10 bg-white border-2 border-${sectionData.theme}-200 rounded-2xl shadow-sm text-center max-w-2xl mx-auto w-full"><h3 class="text-2xl md:text-3xl font-semibold text-slate-700 mb-6">نتيجتك في قسم (${sectionData.title})</h3><div class="text-4xl md:text-5xl font-bold text-${sectionData.theme}-600 flex items-center justify-center gap-3"><span>${toArabicNum(progress.score)}</span><span class="text-2xl md:text-3xl text-slate-400 font-medium mt-1">من</span><span>${toArabicNum(progress.total)}</span></div></div>`; }
                 html += '</div>'; html += this.renderSectionFooterControls(sectionId, isComplete); return html;
@@ -700,7 +717,7 @@
             renderFlashcards(sectionData) {
                 const sectionId = sectionData.id; const theme = sectionData.theme; const state = this.state.sectionData[sectionId]; const { cards, currentIndex, isFlipped, animatingOut } = state; const isComplete = currentIndex >= cards.length;
                 let html = `<div class="flex flex-col items-center w-full gap-6 fade-in">`;
-                if (sectionData.description) { html += `<div class="text-center w-full"><p class="text-lg md:text-xl text-${theme}-800 font-semibold bg-${theme}-50 p-4 md:p-5 rounded-2xl shadow-sm">${sectionData.description}</p></div>`; }
+                if (sectionData.description) { html += `<div class="text-center w-full"><p class="text-lg md:text-xl text-${theme}-800 font-semibold bg-${theme}-50 bg-opacity-60 p-4 md:p-5 rounded-2xl shadow-sm">${sectionData.description}</p></div>`; }
                 html += `<div class="relative w-full min-h-[20rem] flex flex-col items-center justify-center p-4 md:p-6 transition-all duration-500 perspective">`;
                 if (!isComplete) {
                     const card = cards[currentIndex]; const flippedClass = isFlipped ? 'rotate-y-180' : '';
@@ -720,7 +737,7 @@
                     boxesHTML += `<div ${(!isComplete && status !== 'correct' && !animatingOut) ? `onclick="App.handleClassifyClick('${sectionId}', '${cat.id}')"` : ''} class="${boxClass}"><h3 class="font-bold text-xl md:text-2xl text-center text-${boxTheme}-800 border-b border-black/10 pb-4 flex items-center justify-center gap-2">${ICONS.tray} ${cat.label}</h3><div class="flex flex-col gap-2 flex-grow mt-2">${placedHtml}</div></div>`;
                 });
                 html += `<div class="flex flex-col items-center w-full gap-6 fade-in">`;
-                if (sectionData.description) { html += `<div class="text-center w-full"><p class="text-lg md:text-xl text-${theme}-800 font-semibold bg-${theme}-50 p-4 md:p-5 rounded-2xl shadow-sm">${sectionData.description}</p></div>`; }
+                if (sectionData.description) { html += `<div class="text-center w-full"><p class="text-lg md:text-xl text-${theme}-800 font-semibold bg-${theme}-50 bg-opacity-60 p-4 md:p-5 rounded-2xl shadow-sm">${sectionData.description}</p></div>`; }
                 html += `<div class="relative w-full min-h-[12rem] bg-slate-50 rounded-3xl border-2 border-dashed border-slate-300 flex flex-col items-center justify-center p-4 md:p-6 transition-all duration-500">${currentQuestion ? `<div id="classify-card" class="w-full max-w-2xl bg-white p-5 md:p-8 rounded-2xl shadow-lg border-2 border-slate-200 transition-all transform leading-snug flex flex-col justify-start z-10 ${animatingOut ? 'fly-out' : 'fade-in'} ${shakeClass}"><div class="flex items-center justify-between mb-4"><span class="text-${theme}-600 font-bold text-lg md:text-xl">البطاقة ${toArabicNum(currentIndex + 1)}</span><button onclick="App.toggleHint('${sectionId}', ${currentIndex})" class="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-lg md:text-xl font-bold transition-all active:scale-95 text-amber-500 hover:bg-amber-50">💡 تلميح</button></div><span class="block mb-4 text-slate-500 text-sm md:text-base font-medium text-center">إلى أي صندوق تنتمي هذه البطاقة؟</span><h3 class="text-3xl md:text-4xl font-bold leading-snug text-slate-800 text-center">«${currentQuestion.text}»</h3><div class="${showHint ? `block w-full ${hintFadeClass}` : 'hidden'} mt-4"><div class="bg-amber-50 text-amber-900 p-4 rounded-xl text-xl font-medium border border-amber-200 flex gap-2 items-start text-right"><span class="text-amber-500 font-semibold mt-1 shrink-0">💡</span><span class="leading-relaxed">${currentQuestion.hint}</span></div></div><div class="${status === 'incorrect' ? 'block w-full smooth-expand' : 'hidden'} mt-5"><div class="p-4 bg-rose-50 border border-rose-200 rounded-xl text-center text-rose-700 text-lg md:text-xl font-bold shadow-sm">⚠️ ${currentQuestion.explanation}</div></div></div>` : `<div class="text-3xl md:text-4xl font-bold text-emerald-500 flex flex-col items-center gap-4 fade-in py-6"><span class="text-6xl">🎉</span><span>اكتملت الصناديق بنجاح!</span></div>`}</div><div class="w-full grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">${boxesHTML}</div></div>`;
                 if (isComplete) { const progress = this.state.progress[sectionId]; html += `<div class="mt-12 p-8 md:p-10 bg-white border-2 border-${theme}-200 rounded-2xl shadow-sm text-center fade-in max-w-2xl mx-auto w-full"><h3 class="text-2xl md:text-3xl font-semibold text-slate-700 mb-6">نتيجتك في قسم (${sectionData.title})</h3><div class="text-4xl md:text-5xl font-bold text-${theme}-600 flex items-center justify-center gap-3"><span>${toArabicNum(progress.score)}</span><span class="text-2xl md:text-3xl text-slate-400 font-medium mt-1">من</span><span>${toArabicNum(progress.total)}</span></div></div>`; }
                 html += this.renderSectionFooterControls(sectionId, isComplete); return html;
