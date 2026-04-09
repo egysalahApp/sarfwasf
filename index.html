@@ -397,10 +397,10 @@
                     id: "test_mcq",
                     type: "mcq",
                     title: "تحدي الاختيارات",
-                    theme: "teal",
+                    theme: "blue",
                     description: "اختر الإجابة الصحيحة لكل سؤال لاختبار فهمك الشامل.",
                     questions: [
-                        { text: "أي الكلمات التالية ممنوعة من الصرف للوصفية ووزن (فَعْلان)؟", options: ['عثمان', 'عطشان', 'حمدان'], correct: 1, hint: 'ابحث عن وصف وليس (علمًا).', explanation: 'عثمان وحمدان (من الأعلام)، أما عطشان فهو (وصف).' },
+                        { text: "ما الكلمة الممنوعة من الصرف للوصفية ووزن (فَعْلان)؟", options: ['عثمان', 'عطشان', 'حمدان'], correct: 1, hint: 'ابحث عن وصف وليس (علمًا).', explanation: 'عثمان وحمدان (من الأعلام)، أما عطشان فهو (وصف).' },
                         { text: "كلمة (رُباع) مُنعت من الصرف لأنها:", options: ['وصف على وزن أَفْعَل', 'وصف عددي على وزن فُعال', 'جمع تكسير'], correct: 1, hint: 'تدل على عدد.', explanation: 'الأعداد من ١ إلى ١٠ على وزن فُعال ومفعل ممنوعة من الصرف.' },
                         { text: 'علامة جر كلمة (أُخَرَ) في قوله تعالى "فعدة من أيام أُخر" هي:', options: ['الكسرة', 'الفتحة', 'السكون'], correct: 1, hint: 'الممنوع من الصرف يجر بـ..', explanation: 'تُجر بالفتحة نيابة عن الكسرة لأنها ممنوعة من الصرف.' },
                         { text: "المؤنث من الوصف (ظمآن) هو:", options: ['ظمآنة', 'ظمأى', 'ظمآنات'], correct: 1, hint: 'على وزن فَعْلى.', explanation: 'الوصف الذي على وزن فَعْلان يجب أن يكون مؤنثه على وزن فَعْلى (ظمآن/ظمأى) ليُمنع من الصرف.' },
@@ -735,33 +735,53 @@
                 sectionData.categories.forEach(cat => {
                     const boxTheme = cat.theme || 'sky'; 
                     
-                    // تصميم البطاقات الملقاة داخل الصندوق (Soft Items)
-                    const placedHtml = placedItems[cat.id].map(item => `<div class="mt-2 p-3 md:p-4 rounded-xl text-xl md:text-2xl font-bold bg-${boxTheme}-50/80 text-${boxTheme}-900 shadow-sm leading-snug fade-in text-center relative z-10">${item.text}</div>`).join('');
+                    // تصميم البطاقات الملقاة داخل الصندوق (Placed Items)
+                    const placedHtml = placedItems[cat.id].map(item => `
+                        <div class="mt-3 p-3 md:p-4 rounded-xl text-xl md:text-2xl font-bold bg-white border-r-4 border-${boxTheme}-400 shadow-md leading-snug fade-in text-center text-slate-800 relative z-10">
+                            ${item.text}
+                        </div>
+                    `).join('');
                     
-                    // تصميم الصندوق السحابي الطافي (Floating Card)
-                    let boxClass = `flex flex-col w-full p-5 md:p-6 rounded-[2rem] bg-white shadow-xl shadow-${boxTheme}-100/50 transition-all duration-300 min-h-[14rem] relative overflow-hidden group `;
+                    // تصميم حاوية الصندوق (Tray Container)
+                    let boxClass = `flex flex-col w-full pt-6 pb-5 px-5 md:px-6 rounded-[2.5rem] bg-white/50 backdrop-blur-sm border-2 border-slate-300 shadow-[inset_0_2px_8px_rgba(0,0,0,0.03)] transition-all duration-300 min-h-[14rem] relative overflow-hidden group `;
                     if (!isComplete && status !== 'correct' && !animatingOut) { 
-                        boxClass += `cursor-pointer hover:-translate-y-2 hover:shadow-2xl hover:shadow-${boxTheme}-200/60 active:scale-[0.98]`; 
+                        boxClass += `cursor-pointer hover:bg-white/80 hover:border-slate-400 hover:shadow-lg active:scale-[0.98]`; 
                     } else { 
                         boxClass += `cursor-default opacity-95`; 
                     }
 
-                    // تصغير الأيقونة لتناسب الكبسولة
-                    const smallTrayIcon = ICONS.tray.replace('w-8 h-8 md:w-12 md:h-12 mb-2', 'w-5 h-5 md:w-6 md:h-6 mb-0');
+                    // تهيئة الأيقونات
+                    const headerIcon = ICONS.tray.replace('w-8 h-8 md:w-12 md:h-12 mb-2 opacity-80', 'w-6 h-6 md:w-8 md:h-8 text-slate-700');
+                    const watermarkIcon = ICONS.tray.replace('w-8 h-8 md:w-12 md:h-12 mb-2 opacity-80', 'w-full h-full');
                     
                     boxesHTML += `<div ${(!isComplete && status !== 'correct' && !animatingOut) ? `onclick="App.handleClassifyClick('${sectionId}', '${cat.id}')"` : ''} class="${boxClass}">
-                        <!-- كبسولة العنوان (Title Pill) -->
-                        <div class="flex justify-center w-full relative z-10 mb-2">
-                            <div class="bg-${boxTheme}-100/70 text-${boxTheme}-800 px-5 py-2.5 rounded-full backdrop-blur-sm flex items-center justify-center gap-2 font-bold text-lg md:text-xl border border-${boxTheme}-50 shadow-sm">
-                                ${smallTrayIcon}
-                                <span>${cat.label}</span>
+                        
+                        <!-- شريط الهوية (Identity Strip) -->
+                        <div class="absolute top-0 left-0 w-full h-2 bg-${boxTheme}-400 opacity-60 z-10"></div>
+                        
+                        <!-- العلامة المائية (Watermark) -->
+                        <div class="absolute -bottom-10 -left-10 w-40 h-40 text-${boxTheme}-200 opacity-10 transform -rotate-12 scale-150 pointer-events-none z-0 flex items-center justify-center">
+                            ${watermarkIcon}
+                        </div>
+                        
+                        <!-- رأس الصندوق (Header & Title) -->
+                        <div class="flex flex-col items-center justify-center w-full relative z-10 mb-1">
+                            <div class="flex items-center justify-center gap-3">
+                                <div class="bg-white shadow-sm rounded-full p-2 border border-slate-100 flex items-center justify-center">
+                                    ${headerIcon}
+                                </div>
+                                <h3 class="font-bold text-2xl md:text-3xl text-slate-900">${cat.label}</h3>
                             </div>
                         </div>
                         
+                        <!-- الخط الفاصل (Divider) -->
+                        <div class="h-px bg-slate-300 w-2/3 mx-auto my-3 relative z-10 transition-colors duration-300 group-hover:bg-slate-400"></div>
+                        
                         <!-- حاوية البطاقات (Items Container) -->
-                        <div class="flex flex-col gap-2 flex-grow mt-2 relative z-10">
+                        <div class="flex flex-col gap-2 flex-grow relative z-10">
                             ${placedHtml}
                         </div>
+                        
                     </div>`;
                 });
 
