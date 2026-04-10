@@ -754,8 +754,8 @@
                         let btnClass = `px-5 py-3 rounded-xl font-bold text-lg md:text-xl transition-all duration-300 border-2 `;
                         
                         if (!animatingOut && status !== 'correct') {
-                            // تفعيل اللمس والتفاعل
-                            btnClass += `bg-white border-${btnTheme}-200 text-${btnTheme}-700 md:hover:bg-${btnTheme}-100 md:hover:border-${btnTheme}-400 md:hover:-translate-y-1 active:scale-95 shadow-sm cursor-pointer`;
+                            // تفعيل اللمس والتفاعل (تم تغيير bg-white إلى bg-{btnTheme}-50)
+                            btnClass += `bg-${btnTheme}-50 border-${btnTheme}-200 text-${btnTheme}-700 md:hover:bg-${btnTheme}-100 md:hover:border-${btnTheme}-400 md:hover:-translate-y-1 active:scale-95 shadow-sm cursor-pointer`;
                         } else {
                             // تجميد الزر أثناء الحركة أو الإجابة الصحيحة
                             btnClass += `bg-slate-50 border-slate-200 text-slate-400 opacity-60 cursor-default`;
