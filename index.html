@@ -726,7 +726,7 @@
                 html += this.renderSectionFooterControls(sectionId, isComplete); return html;
             },
             
-            // --- دالة عرض التصنيف المحدثة (الهجينة) ---
+            // --- دالة عرض التصنيف المحدثة (شاشة علوية + لوحة تحكم سفلية) ---
             renderClassify(sectionData) {
                 const sectionId = sectionData.id;
                 const theme = sectionData.theme;
@@ -745,19 +745,20 @@
                 const hintFadeClass = (currentQState && currentQState.hintAnimate) ? 'smooth-expand' : '';
                 const shakeClass = status === 'incorrect' ? 'shake' : '';
 
-                // 1. توليد أزرار الإجابة التفاعلية المدمجة
+                // 1. توليد أزرار لوحة التحكم (مفصولة عن البطاقة)
                 let actionButtonsHTML = '';
                 if (!isComplete) {
-                    actionButtonsHTML += `<div class="w-full mt-6 border-t-2 border-slate-100 pt-6 flex flex-wrap justify-center gap-3">`;
+                    actionButtonsHTML += `<div class="w-full flex flex-wrap justify-center gap-3">`;
                     sectionData.categories.forEach(cat => {
                         const btnTheme = cat.theme || 'sky';
-                        let btnClass = `px-5 py-3 rounded-xl font-bold text-lg md:text-xl transition-all duration-300 border-2 `;
+                        // توحيد حجم الأزرار: min-h-[4.5rem] md:min-h-[5rem] مع التوسيط
+                        let btnClass = `flex-1 min-w-[120px] max-w-[200px] flex items-center justify-center min-h-[4.5rem] md:min-h-[5rem] px-4 py-3 rounded-xl font-bold text-lg md:text-xl transition-all duration-300 border-2 text-center leading-snug `;
                         
                         if (!animatingOut && status !== 'correct') {
-                            // تفعيل اللمس والتفاعل (تم تغيير bg-white إلى bg-{btnTheme}-50)
+                            // تفعيل اللمس والتفاعل
                             btnClass += `bg-${btnTheme}-50 border-${btnTheme}-200 text-${btnTheme}-700 md:hover:bg-${btnTheme}-100 md:hover:border-${btnTheme}-400 md:hover:-translate-y-1 active:scale-95 shadow-sm cursor-pointer`;
                         } else {
-                            // تجميد الزر أثناء الحركة أو الإجابة الصحيحة
+                            // تجميد الزر
                             btnClass += `bg-slate-50 border-slate-200 text-slate-400 opacity-60 cursor-default`;
                         }
 
@@ -766,7 +767,7 @@
                     actionButtonsHTML += `</div>`;
                 }
 
-                // 2. توليد الصناديق الزجاجية السفلية (للعرض فقط)
+                // 2. توليد الصناديق الزجاجية السفلية (للعرض فقط - ثابتة وصلبة)
                 let glassyTraysHTML = '';
                 sectionData.categories.forEach(cat => {
                     const boxTheme = cat.theme || 'sky';
@@ -778,7 +779,7 @@
                         </div>
                     `).join('');
 
-                    // حاوية الصندوق صلبة ومستقرة، غير قابلة للنقر
+                    // حاوية الصندوق صلبة ومستقرة، غير قابلة للنقر أو التحويم تماماً
                     let boxClass = `flex flex-col w-full pt-6 pb-5 px-5 md:px-6 rounded-[2.5rem] bg-white/50 backdrop-blur-sm border-2 border-slate-300 shadow-[inset_0_2px_8px_rgba(0,0,0,0.03)] min-h-[14rem] relative overflow-hidden`;
 
                     const headerIcon = ICONS.tray.replace('w-8 h-8 md:w-12 md:h-12 mb-2 opacity-80', `w-6 h-6 md:w-8 md:h-8 text-${boxTheme}-600 shrink-0`);
@@ -819,20 +820,24 @@
                     html += `<div class="text-center w-full"><p class="text-lg md:text-xl text-${theme}-800 font-semibold bg-${theme}-50 bg-opacity-60 p-4 md:p-5 rounded-2xl shadow-sm">${sectionData.description}</p></div>`;
                 }
 
-                // الحاوية المبطنة بخلفية منقطة لمنع اهتزاز الشاشة (min-h-[24rem] كافية للبطاقة وأزرارها)
-                html += `<div class="relative w-full min-h-[24rem] bg-slate-50 rounded-3xl border-2 border-dashed border-slate-300 flex flex-col items-center justify-center p-4 md:p-6 transition-all duration-500">`;
+                // الحاوية المبطنة (الخندق الصلب) - بدون transition-all وبـ flex-col justify-between لتباعد البطاقة عن الأزرار
+                html += `<div class="relative w-full min-h-[32rem] md:min-h-[34rem] bg-slate-50 rounded-3xl border-2 border-dashed border-slate-300 flex flex-col justify-between p-4 md:p-6">`;
 
                 if (currentQuestion) {
-                    // البطاقة الموحدة (السؤال + التلميح + الخطأ + الأزرار)
+                    
+                    // --- شاشة العرض (حاوية ذات ارتفاع ثابت ومطلق للبطاقة) ---
+                    html += `<div class="w-full flex flex-col items-center justify-center h-[22rem] md:h-[24rem]">`;
+                    
+                    // البطاقة البيضاء (كيان الحركة الوحيد)
                     html += `
-                    <div id="classify-card" class="w-full max-w-2xl bg-white p-5 md:p-8 rounded-2xl shadow-lg border-2 border-slate-200 transition-all transform leading-snug flex flex-col justify-start z-10 ${animatingOut ? 'fly-out' : 'fade-in'} ${shakeClass}">
+                    <div id="classify-card" class="w-full max-w-2xl bg-white p-5 md:p-8 rounded-2xl shadow-lg border-2 border-slate-200 leading-snug flex flex-col justify-start z-10 ${animatingOut ? 'fly-out' : 'fade-in'} ${shakeClass}">
                         <div class="flex items-center justify-between mb-4">
                             <span class="text-${theme}-600 font-bold text-lg md:text-xl">البطاقة ${toArabicNum(currentIndex + 1)}</span>
                             <button onclick="App.toggleHint('${sectionId}', ${currentIndex})" class="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-lg md:text-xl font-bold transition-all active:scale-95 text-amber-500 md:hover:bg-amber-50">💡 تلميح</button>
                         </div>
                         <span class="block mb-4 text-slate-500 text-sm md:text-base font-medium text-center">إلى أي صندوق تنتمي هذه البطاقة؟</span>
                         
-                        <!-- منطقة مخصصة للسؤال بـ ارتفاع ثابت -->
+                        <!-- منطقة مخصصة للسؤال بـ ارتفاع ثابت لتوسيط النص -->
                         <div class="w-full min-h-[8rem] md:min-h-[10rem] flex items-center justify-center">
                             <h3 class="text-3xl md:text-4xl font-bold leading-snug text-slate-800 text-center">«${currentQuestion.text}»</h3>
                         </div>
@@ -849,15 +854,22 @@
                         <div class="${status === 'incorrect' ? 'block w-full smooth-expand' : 'hidden'} mt-5">
                             <div class="p-4 bg-rose-50 border border-rose-200 rounded-xl text-center text-rose-700 text-lg md:text-xl font-bold shadow-sm">⚠️ ${currentQuestion.explanation}</div>
                         </div>
-
-                        <!-- أزرار الإجابة المدمجة -->
-                        ${actionButtonsHTML}
                     </div>`;
+                    
+                    html += `</div>`; // نهاية شاشة العرض
+
+                    // --- لوحة التحكم (سفلية، ثابتة، تمتص التفاف الأزرار) ---
+                    // تطبيق pointer-events-none لمنع النقر المزدوج أثناء الحركة
+                    const disablePanelClass = (animatingOut || status === 'correct') ? 'pointer-events-none' : '';
+                    html += `<div class="w-full min-h-[11rem] md:min-h-[6rem] mt-4 flex flex-col justify-end ${disablePanelClass}">`;
+                    html += actionButtonsHTML;
+                    html += `</div>`; // نهاية لوحة التحكم
+
                 } else {
-                    html += `<div class="text-3xl md:text-4xl font-bold text-emerald-500 flex flex-col items-center gap-4 fade-in py-6"><span class="text-6xl">🎉</span><span>اكتملت الصناديق بنجاح!</span></div>`;
+                    html += `<div class="w-full h-full flex-grow flex flex-col items-center justify-center"><div class="text-3xl md:text-4xl font-bold text-emerald-500 flex flex-col items-center gap-4 fade-in py-6"><span class="text-6xl">🎉</span><span>اكتملت الصناديق بنجاح!</span></div></div>`;
                 }
 
-                html += `</div>`; // نهاية الحاوية المبطنة
+                html += `</div>`; // نهاية الخندق الصلب (الحاوية المتقطعة)
 
                 // شبكة الصناديق السفلية
                 html += `<div class="w-full grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">${glassyTraysHTML}</div>`;
