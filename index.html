@@ -627,7 +627,33 @@
                     let numberingHTML = `<div class="${numClass}">${toArabicNum(optIdx + 1)}</div>`;
                     optionsHTML += `<button ${answered ? 'disabled' : ''} onclick="App.handleAnswer('${sectionId}', ${idx}, ${optIdx})" class="${btnClass}">${numberingHTML}<span class="relative z-10 flex-grow text-right">${opt.text}</span>${answered && opt.isCorrect ? ICONS.checkCircle : ''}${answered && selectedOption === opt && !opt.isCorrect ? ICONS.xCircle : ''}</button>`;
                 });
-                return `<div id="${sectionId}-q-${idx}" class="bg-white rounded-2xl p-5 md:p-6 shadow-sm border border-slate-200 mb-8 relative transition-colors duration-300 flex flex-col justify-start ${ringClass}"><div class="bg-slate-50 p-4 md:p-6 rounded-xl border border-slate-100 mb-6 w-full mx-auto"><div class="flex items-center justify-between mb-4"><span class="text-${theme}-600 font-bold text-lg md:text-xl">السؤال ${toArabicNum(idx + 1)}</span><button onclick="App.toggleHint('${sectionId}', ${idx})" class="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-lg md:text-xl font-bold transition-all active:scale-95 text-amber-500 md:hover:bg-amber-50">💡 تلميح</button></div><h3 class="text-2xl md:text-3xl font-semibold text-slate-800 leading-snug whitespace-pre-line text-right">${q.text}</h3><div class="${showHint ? `block w-full ${hintFadeClass}` : 'hidden'}"><div class="mt-4 bg-amber-50 text-amber-900 p-4 rounded-xl text-xl font-medium border border-amber-200 flex gap-2 items-start text-right"><span class="text-amber-500 font-semibold mt-1 shrink-0">💡</span><span class="leading-relaxed">${q.hint}</span></div></div></div><div class="grid gap-3 mx-auto w-full max-w-md flex-grow grid-cols-1 content-start">${optionsHTML}</div><div class="${answered ? `block w-full ${answerFadeClass}` : 'hidden'}"><div class="mt-6 p-5 rounded-xl border text-right ${isSelectedCorrect ? 'bg-emerald-50 border-emerald-200' : 'bg-rose-50 border-rose-200'}"><div class="flex items-center justify-start gap-2 mb-3 font-bold text-xl md:text-2xl ${isSelectedCorrect ? 'text-emerald-700' : 'text-rose-700'}">${isSelectedCorrect ? `<span class="text-emerald-700">${ICONS.checkCircleLarge}</span>` : `<span class="text-rose-700">${ICONS.xCircleLarge}</span>`}<span>${isSelectedCorrect ? 'إجابة صحيحة' : 'إجابة خاطئة'}</span></div><div class="text-xl md:text-2xl font-semibold leading-relaxed ${isSelectedCorrect ? 'text-emerald-800' : 'text-rose-800'} pr-1">${q.explanation}</div></div></div></div>`;
+                return `
+                <div id="${sectionId}-q-${idx}" class="bg-white rounded-2xl p-5 md:p-6 shadow-sm border border-slate-200 mb-8 relative transition-colors duration-300 flex flex-col justify-start ${ringClass}">
+                    <div class="bg-slate-50 p-4 md:p-6 rounded-xl border border-slate-100 mb-6 w-full mx-auto">
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-${theme}-600 font-bold text-lg md:text-xl">السؤال ${toArabicNum(idx + 1)}</span>
+                            <button onclick="App.toggleHint('${sectionId}', ${idx})" class="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-lg md:text-xl font-bold transition-all active:scale-95 text-amber-500 md:hover:bg-amber-50">💡 تلميح</button>
+                        </div>
+                        <h3 class="text-2xl md:text-3xl font-semibold text-slate-800 leading-snug whitespace-pre-line text-right">${q.text}</h3>
+                        <div id="hint-area-${sectionId}-${idx}" class="${showHint ? `block w-full ${hintFadeClass}` : 'hidden'} mt-2">
+                            <div class="bg-amber-50 text-amber-900 p-4 rounded-xl text-xl font-medium border border-amber-200 flex gap-2 items-start text-right">
+                                <span class="text-amber-500 font-semibold mt-1 shrink-0">💡</span><span class="leading-relaxed">${q.hint}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="options-area-${sectionId}-${idx}" class="grid gap-3 mx-auto w-full max-w-md flex-grow grid-cols-1 content-start">
+                        ${optionsHTML}
+                    </div>
+                    <div id="feedback-area-${sectionId}-${idx}" class="${answered ? `block w-full ${answerFadeClass}` : 'hidden'}">
+                        <div class="mt-6 p-5 rounded-xl border text-right ${isSelectedCorrect ? 'bg-emerald-50 border-emerald-200' : 'bg-rose-50 border-rose-200'}">
+                            <div class="flex items-center justify-start gap-2 mb-3 font-bold text-xl md:text-2xl ${isSelectedCorrect ? 'text-emerald-700' : 'text-rose-700'}">
+                                ${isSelectedCorrect ? `<span class="text-emerald-700">${ICONS.checkCircleLarge}</span>` : `<span class="text-rose-700">${ICONS.xCircleLarge}</span>`}
+                                <span>${isSelectedCorrect ? 'إجابة صحيحة' : 'إجابة خاطئة'}</span>
+                            </div>
+                            <div class="text-xl md:text-2xl font-semibold leading-relaxed ${isSelectedCorrect ? 'text-emerald-800' : 'text-rose-800'} pr-1">${q.explanation}</div>
+                        </div>
+                    </div>
+                </div>`;
             },
             renderSort(sectionData) {
                 const sectionId = sectionData.id; const theme = sectionData.theme; const state = this.state.sectionData[sectionId]; const { questions, currentIndex, status, animatingOut } = state; const isComplete = currentIndex >= questions.length;
@@ -686,7 +712,31 @@
                     wordsHTML += `<button ${answered ? 'disabled' : ''} onclick="App.handleSpottingWordClick('${sectionId}', ${idx}, ${wIdx})" class="${wordClass}">${word}</button>`;
                 });
 
-                return `<div id="${sectionId}-q-${idx}" class="bg-white rounded-2xl p-5 md:p-6 shadow-sm border border-slate-200 mb-8 relative transition-colors duration-300 flex flex-col justify-start ${ringClass}"><div class="bg-slate-50 p-4 md:p-6 rounded-xl border border-slate-100 mb-6 w-full mx-auto"><div class="flex items-center justify-between mb-4"><span class="text-${theme}-600 font-bold text-lg md:text-xl">السؤال ${toArabicNum(idx + 1)}</span><button onclick="App.toggleHint('${sectionId}', ${idx})" class="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-lg md:text-xl font-bold transition-all active:scale-95 text-amber-500 md:hover:bg-amber-50">💡 تلميح</button></div><div class="${showHint ? `block w-full ${hintFadeClass}` : 'hidden'} mt-2"><div class="bg-amber-50 text-amber-900 p-4 rounded-xl text-xl font-medium border border-amber-200 flex gap-2 items-start text-right"><span class="text-amber-500 font-semibold mt-1 shrink-0">💡</span><span class="leading-relaxed">${q.hint}</span></div></div></div><div class="flex flex-wrap justify-center items-center gap-3 md:gap-4 leading-loose mx-auto w-full max-w-2xl">${wordsHTML}</div><div class="${answered ? `block w-full ${answerFadeClass}` : 'hidden'}"><div class="mt-6 p-5 rounded-xl border text-right bg-emerald-50 border-emerald-200"><div class="flex items-center justify-start gap-2 mb-3 font-bold text-xl md:text-2xl text-emerald-700"><span class="text-emerald-700">${ICONS.checkCircleLarge}</span><span>أحسنت الاختيار</span></div><div class="text-xl md:text-2xl font-semibold leading-relaxed text-emerald-800 pr-1">${q.explanation}</div></div></div></div>`;
+                return `
+                <div id="${sectionId}-q-${idx}" class="bg-white rounded-2xl p-5 md:p-6 shadow-sm border border-slate-200 mb-8 relative transition-colors duration-300 flex flex-col justify-start ${ringClass}">
+                    <div class="bg-slate-50 p-4 md:p-6 rounded-xl border border-slate-100 mb-6 w-full mx-auto">
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-${theme}-600 font-bold text-lg md:text-xl">السؤال ${toArabicNum(idx + 1)}</span>
+                            <button onclick="App.toggleHint('${sectionId}', ${idx})" class="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-lg md:text-xl font-bold transition-all active:scale-95 text-amber-500 md:hover:bg-amber-50">💡 تلميح</button>
+                        </div>
+                        <div id="hint-area-${sectionId}-${idx}" class="${showHint ? `block w-full ${hintFadeClass}` : 'hidden'} mt-2">
+                            <div class="bg-amber-50 text-amber-900 p-4 rounded-xl text-xl font-medium border border-amber-200 flex gap-2 items-start text-right">
+                                <span class="text-amber-500 font-semibold mt-1 shrink-0">💡</span><span class="leading-relaxed">${q.hint}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="words-area-${sectionId}-${idx}" class="flex flex-wrap justify-center items-center gap-3 md:gap-4 leading-loose mx-auto w-full max-w-2xl">
+                        ${wordsHTML}
+                    </div>
+                    <div id="feedback-area-${sectionId}-${idx}" class="${answered ? `block w-full ${answerFadeClass}` : 'hidden'}">
+                        <div class="mt-6 p-5 rounded-xl border text-right bg-emerald-50 border-emerald-200">
+                            <div class="flex items-center justify-start gap-2 mb-3 font-bold text-xl md:text-2xl text-emerald-700">
+                                <span class="text-emerald-700">${ICONS.checkCircleLarge}</span><span>أحسنت الاختيار</span>
+                            </div>
+                            <div class="text-xl md:text-2xl font-semibold leading-relaxed text-emerald-800 pr-1">${q.explanation}</div>
+                        </div>
+                    </div>
+                </div>`;
             },
 
             renderErrorCorrection(sectionData) {
@@ -743,7 +793,35 @@
                     optionsHTML += `</div></div>`;
                 }
 
-                return `<div id="${sectionId}-q-${idx}" class="bg-white rounded-2xl p-5 md:p-6 shadow-sm border border-slate-200 mb-8 relative transition-colors duration-300 flex flex-col justify-start ${ringClass}"><div class="bg-slate-50 p-4 md:p-6 rounded-xl border border-slate-100 mb-6 w-full mx-auto"><div class="flex items-center justify-between mb-4"><span class="text-${theme}-600 font-bold text-lg md:text-xl">السؤال ${toArabicNum(idx + 1)}</span><button onclick="App.toggleHint('${sectionId}', ${idx})" class="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-lg md:text-xl font-bold transition-all active:scale-95 text-amber-500 md:hover:bg-amber-50">💡 تلميح</button></div><div class="${showHint ? `block w-full ${hintFadeClass}` : 'hidden'} mt-2"><div class="bg-amber-50 text-amber-900 p-4 rounded-xl text-xl font-medium border border-amber-200 flex gap-2 items-start text-right"><span class="text-amber-500 font-semibold mt-1 shrink-0">💡</span><span class="leading-relaxed">${q.hint}</span></div></div></div><div class="flex flex-wrap justify-center items-center gap-3 md:gap-4 leading-loose mx-auto w-full max-w-2xl">${wordsHTML}</div>${optionsHTML}<div class="${isStep3 ? `block w-full ${answerFadeClass}` : 'hidden'}"><div class="mt-6 p-5 rounded-xl border text-right ${isSelectedCorrect ? 'bg-emerald-50 border-emerald-200' : 'bg-rose-50 border-rose-200'}"><div class="flex items-center justify-start gap-2 mb-3 font-bold text-xl md:text-2xl ${isSelectedCorrect ? 'text-emerald-700' : 'text-rose-700'}">${isSelectedCorrect ? `<span class="text-emerald-700">${ICONS.checkCircleLarge}</span>` : `<span class="text-rose-700">${ICONS.xCircleLarge}</span>`}<span>${isSelectedCorrect ? 'إجابة صحيحة' : 'إجابة خاطئة'}</span></div><div class="text-xl md:text-2xl font-semibold leading-relaxed ${isSelectedCorrect ? 'text-emerald-800' : 'text-rose-800'} pr-1">${q.explanation}</div></div></div></div>`;
+                return `
+                <div id="${sectionId}-q-${idx}" class="bg-white rounded-2xl p-5 md:p-6 shadow-sm border border-slate-200 mb-8 relative transition-colors duration-300 flex flex-col justify-start ${ringClass}">
+                    <div class="bg-slate-50 p-4 md:p-6 rounded-xl border border-slate-100 mb-6 w-full mx-auto">
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-${theme}-600 font-bold text-lg md:text-xl">السؤال ${toArabicNum(idx + 1)}</span>
+                            <button onclick="App.toggleHint('${sectionId}', ${idx})" class="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-lg md:text-xl font-bold transition-all active:scale-95 text-amber-500 md:hover:bg-amber-50">💡 تلميح</button>
+                        </div>
+                        <div id="hint-area-${sectionId}-${idx}" class="${showHint ? `block w-full ${hintFadeClass}` : 'hidden'} mt-2">
+                            <div class="bg-amber-50 text-amber-900 p-4 rounded-xl text-xl font-medium border border-amber-200 flex gap-2 items-start text-right">
+                                <span class="text-amber-500 font-semibold mt-1 shrink-0">💡</span><span class="leading-relaxed">${q.hint}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="words-area-${sectionId}-${idx}" class="flex flex-wrap justify-center items-center gap-3 md:gap-4 leading-loose mx-auto w-full max-w-2xl">
+                        ${wordsHTML}
+                    </div>
+                    <div id="options-area-${sectionId}-${idx}" class="w-full overflow-hidden">
+                        ${optionsHTML}
+                    </div>
+                    <div id="feedback-area-${sectionId}-${idx}" class="${isStep3 ? `block w-full ${answerFadeClass}` : 'hidden'}">
+                        <div class="mt-6 p-5 rounded-xl border text-right ${isSelectedCorrect ? 'bg-emerald-50 border-emerald-200' : 'bg-rose-50 border-rose-200'}">
+                            <div class="flex items-center justify-start gap-2 mb-3 font-bold text-xl md:text-2xl ${isSelectedCorrect ? 'text-emerald-700' : 'text-rose-700'}">
+                                ${isSelectedCorrect ? `<span class="text-emerald-700">${ICONS.checkCircleLarge}</span>` : `<span class="text-rose-700">${ICONS.xCircleLarge}</span>`}
+                                <span>${isSelectedCorrect ? 'إجابة صحيحة' : 'إجابة خاطئة'}</span>
+                            </div>
+                            <div class="text-xl md:text-2xl font-semibold leading-relaxed ${isSelectedCorrect ? 'text-emerald-800' : 'text-rose-800'} pr-1">${q.explanation}</div>
+                        </div>
+                    </div>
+                </div>`;
             },
             renderFlashcards(sectionData) {
                 const sectionId = sectionData.id; const theme = sectionData.theme; const state = this.state.sectionData[sectionId]; const { cards, currentIndex, isFlipped, animatingOut } = state; const isComplete = currentIndex >= cards.length;
@@ -847,8 +925,8 @@
                     html += `<div class="text-center w-full"><p class="text-lg md:text-xl text-${theme}-800 font-semibold bg-${theme}-50 bg-opacity-60 p-4 md:p-5 rounded-2xl shadow-sm">${sectionData.description}</p></div>`;
                 }
 
-                // --- الحاوية الخارجية (تثبيت القمة - Top Pinning) ---
-                html += `<div class="relative w-full min-h-[34rem] md:min-h-[36rem] bg-slate-50 rounded-3xl border-2 border-dashed border-slate-300 flex flex-col items-center justify-start pt-8 md:pt-12 px-4 pb-8 md:px-6">`;
+                // --- الحاوية الخارجية (تثبيت القمة - Top Pinning) مع الارتفاع الديناميكي ---
+                html += `<div class="relative w-full min-h-[15rem] transition-all duration-500 ease-in-out bg-slate-50 rounded-3xl border-2 border-dashed border-slate-300 flex flex-col items-center justify-start pt-8 md:pt-12 px-4 pb-8 md:px-6">`;
 
                 if (currentQuestion) {
                     html += `
@@ -861,7 +939,7 @@
                         <div class="w-full min-h-[8rem] md:min-h-[10rem] flex flex-col items-center justify-center mb-2">
                             <h3 class="text-3xl md:text-4xl font-bold leading-snug text-slate-800 text-center">«${currentQuestion.text}»</h3>
                         </div>
-                        <div class="${showHint ? `block w-full ${hintFadeClass}` : 'hidden'} mb-4">
+                        <div id="hint-area-${sectionId}-${currentIndex}" class="${showHint ? `block w-full ${hintFadeClass}` : 'hidden'} mb-4">
                             <div class="bg-amber-50 text-amber-900 p-4 rounded-xl text-xl font-medium border border-amber-200 flex gap-2 items-start text-right">
                                 <span class="text-amber-500 font-semibold mt-1 shrink-0">💡</span>
                                 <span class="leading-relaxed">${currentQuestion.hint}</span>
@@ -889,10 +967,178 @@
                 return `<div class="mt-8 flex flex-col md:flex-row justify-center items-center gap-4 mx-auto w-full"><button onclick="App.handleResetSection('${sectionId}')" class="w-full md:w-auto px-8 py-3 md:py-4 rounded-full font-semibold text-xl md:text-2xl text-slate-600 bg-slate-100 md:hover:bg-slate-200 active:scale-95 transition-transform flex items-center justify-center gap-3">${ICONS.refresh} إعادة المحاولة</button>${!isLast ? `<button onclick="App.handleNextSection()" class="w-full md:w-auto px-8 md:px-10 py-3 md:py-4 rounded-full font-semibold text-xl md:text-2xl text-white shadow-md transition-transform flex items-center justify-center gap-3 active:scale-95 bg-${sectionData.theme}-600 md:hover:bg-${sectionData.theme}-700">القسم التالي ${ICONS.arrowLeft}</button>` : ''}</div>`;
             },
             
+            // --- دوال التحديث الجزئي للبطاقات (Partial Updates) ---
+            updateErrorCardPartial(sectionId, qIndex) {
+                const qState = this.state.sectionData[sectionId][qIndex];
+                const { originalQuestion: q, step, selectedWordIndex, selectedOption, answerAnimate, shakeWordIndex } = qState;
+                const isStep3 = step === 3;
+                const isSelectedCorrect = selectedOption && selectedOption.isCorrect;
+
+                // تحديث الكلمات
+                let wordsHTML = '';
+                q.words.forEach((word, wIdx) => {
+                    const isSelected = selectedWordIndex === wIdx; const isShaking = shakeWordIndex === wIdx;
+                    let wordClass = "px-4 md:px-6 py-3 md:py-4 text-2xl md:text-3xl font-bold rounded-xl transition-colors duration-300 select-none border-2 ";
+                    let displayText = word;
+                    if (step === 1) {
+                        wordClass += `bg-white border-slate-200 text-slate-700 cursor-pointer `;
+                        if (isShaking) wordClass += "bg-rose-100 border-rose-400 text-rose-700 shake ";
+                    } else {
+                        if (isSelected) {
+                            if (isStep3 && isSelectedCorrect) {
+                                wordClass += "bg-emerald-500 text-white border-emerald-600 ";
+                                displayText = selectedOption.text;
+                            } else {
+                                wordClass += "bg-rose-500 text-white border-rose-600 ";
+                            }
+                        } else {
+                            wordClass += "bg-white border-slate-200 text-slate-700 cursor-default ";
+                        }
+                    }
+                    wordsHTML += `<button ${step !== 1 ? 'disabled' : ''} onclick="App.handleErrorWordClick('${sectionId}', ${qIndex}, ${wIdx})" class="${wordClass}">${displayText}</button>`;
+                });
+                const wordsArea = document.getElementById(`words-area-${sectionId}-${qIndex}`);
+                if (wordsArea) wordsArea.innerHTML = wordsHTML;
+
+                // تحديث الخيارات
+                let optionsHTML = '';
+                if (step >= 2) {
+                    optionsHTML += `<div class="${qState.optionsAnimate ? 'smooth-expand' : ''}"><div class="mt-8 mb-4 text-center font-bold text-xl text-slate-600">اختر التصويب الصحيح:</div><div class="grid gap-3 grid-cols-1 md:grid-cols-3 w-full">`;
+                    qState.options.forEach((opt, optIdx) => {
+                        let btnClass = `p-4 rounded-xl border-2 transition-all font-semibold text-xl md:text-2xl flex items-center justify-center gap-2 `;
+                        if (step === 2) { btnClass += `border-slate-200 bg-white text-slate-600 md:hover:bg-slate-50 active:scale-95 cursor-pointer`; } 
+                        else { 
+                            if (opt.isCorrect) btnClass += "bg-emerald-50 border-emerald-500 text-emerald-800 shadow-sm"; 
+                            else if (selectedOption === opt) btnClass += "bg-rose-50 border-rose-500 text-rose-800 shadow-sm"; 
+                            else btnClass += "bg-slate-50 border-slate-100 text-slate-400 opacity-50"; 
+                            btnClass += " cursor-default"; 
+                        }
+                        optionsHTML += `<button ${step === 3 ? 'disabled' : ''} onclick="App.handleErrorOptionClick('${sectionId}', ${qIndex}, ${optIdx})" class="${btnClass}">${opt.text}${step === 3 && opt.isCorrect ? ICONS.checkCircle : ''}${step === 3 && selectedOption === opt && !opt.isCorrect ? ICONS.xCircle : ''}</button>`;
+                    });
+                    optionsHTML += `</div></div>`;
+                }
+                const optionsArea = document.getElementById(`options-area-${sectionId}-${qIndex}`);
+                if (optionsArea) optionsArea.innerHTML = optionsHTML;
+
+                // تحديث التغذية الراجعة
+                const feedbackArea = document.getElementById(`feedback-area-${sectionId}-${qIndex}`);
+                if (feedbackArea) {
+                    if (isStep3) {
+                        feedbackArea.className = `block w-full ${answerAnimate ? 'smooth-expand' : ''}`;
+                        feedbackArea.innerHTML = `<div class="mt-6 p-5 rounded-xl border text-right ${isSelectedCorrect ? 'bg-emerald-50 border-emerald-200' : 'bg-rose-50 border-rose-200'}"><div class="flex items-center justify-start gap-2 mb-3 font-bold text-xl md:text-2xl ${isSelectedCorrect ? 'text-emerald-700' : 'text-rose-700'}">${isSelectedCorrect ? `<span class="text-emerald-700">${ICONS.checkCircleLarge}</span>` : `<span class="text-rose-700">${ICONS.xCircleLarge}</span>`}<span>${isSelectedCorrect ? 'إجابة صحيحة' : 'إجابة خاطئة'}</span></div><div class="text-xl md:text-2xl font-semibold leading-relaxed ${isSelectedCorrect ? 'text-emerald-800' : 'text-rose-800'} pr-1">${q.explanation}</div></div>`;
+                    } else {
+                        feedbackArea.className = 'hidden';
+                    }
+                }
+
+                // تحديث إطار البطاقة الرئيسي
+                const mainCard = document.getElementById(`${sectionId}-q-${qIndex}`);
+                if (mainCard) {
+                    if (isStep3) {
+                        mainCard.classList.add('ring-2');
+                        if (isSelectedCorrect) { mainCard.classList.add('ring-emerald-400'); mainCard.classList.remove('ring-rose-400'); }
+                        else { mainCard.classList.add('ring-rose-400'); mainCard.classList.remove('ring-emerald-400'); }
+                    } else {
+                        mainCard.classList.remove('ring-2', 'ring-emerald-400', 'ring-rose-400');
+                    }
+                }
+            },
+
+            updateSpottingCardPartial(sectionId, qIndex, theme) {
+                const qState = this.state.sectionData[sectionId][qIndex];
+                const q = qState.originalQuestion;
+                const { answered, selectedWordIndex, answerAnimate, shakeWordIndex } = qState;
+                const isTarget = wIdx => q.targetIndex === wIdx;
+
+                // تحديث الكلمات
+                let wordsHTML = '';
+                q.words.forEach((word, wIdx) => {
+                    const isSelectedCorrect = answered && isTarget(wIdx);
+                    const isShaking = shakeWordIndex === wIdx;
+                    let wordClass = "px-4 md:px-6 py-3 md:py-4 text-2xl md:text-3xl font-bold rounded-xl transition-all duration-300 select-none ";
+                    if (!answered) {
+                        wordClass += `bg-white border-2 border-slate-200 text-slate-700 md:hover:border-${theme}-300 md:hover:bg-${theme}-50 md:hover:-translate-y-1 md:hover:shadow-md active:scale-95 cursor-pointer `;
+                        if (isShaking) wordClass += "bg-rose-100 border-rose-400 text-rose-700 shake ";
+                    } else {
+                        if (isSelectedCorrect) wordClass += `bg-emerald-500 text-white border-2 border-emerald-600 shadow-md scale-105 `;
+                        else wordClass += "bg-slate-50 border-2 border-slate-100 text-slate-400 opacity-50 cursor-default ";
+                    }
+                    wordsHTML += `<button ${answered ? 'disabled' : ''} onclick="App.handleSpottingWordClick('${sectionId}', ${qIndex}, ${wIdx})" class="${wordClass}">${word}</button>`;
+                });
+                const wordsArea = document.getElementById(`words-area-${sectionId}-${qIndex}`);
+                if (wordsArea) wordsArea.innerHTML = wordsHTML;
+
+                // تحديث التغذية الراجعة
+                const feedbackArea = document.getElementById(`feedback-area-${sectionId}-${qIndex}`);
+                if (feedbackArea) {
+                    if (answered) {
+                        feedbackArea.className = `block w-full ${answerAnimate ? 'smooth-expand' : ''}`;
+                        feedbackArea.innerHTML = `<div class="mt-6 p-5 rounded-xl border text-right bg-emerald-50 border-emerald-200"><div class="flex items-center justify-start gap-2 mb-3 font-bold text-xl md:text-2xl text-emerald-700"><span class="text-emerald-700">${ICONS.checkCircleLarge}</span><span>أحسنت الاختيار</span></div><div class="text-xl md:text-2xl font-semibold leading-relaxed text-emerald-800 pr-1">${q.explanation}</div></div>`;
+                    } else {
+                        feedbackArea.className = 'hidden';
+                    }
+                }
+
+                // تحديث إطار البطاقة الرئيسي
+                const mainCard = document.getElementById(`${sectionId}-q-${qIndex}`);
+                if (mainCard) {
+                    if (answered) mainCard.classList.add('ring-2', 'ring-emerald-400');
+                    else mainCard.classList.remove('ring-2', 'ring-emerald-400');
+                }
+            },
+
+            updateStandardCardPartial(sectionId, qIndex, theme) {
+                const qState = this.state.sectionData[sectionId][qIndex];
+                const { originalQuestion: q, options, answered, selectedOption, answerAnimate } = qState;
+                const isSelectedCorrect = selectedOption && selectedOption.isCorrect;
+
+                // تحديث الخيارات
+                let optionsHTML = '';
+                options.forEach((opt, optIdx) => {
+                    let btnClass = `w-full p-4 md:p-5 rounded-xl border-2 transition-all font-semibold text-xl md:text-2xl flex items-center gap-3 justify-start `;
+                    if (!answered) { btnClass += `border-slate-200 bg-white text-slate-600 active:scale-95 md:hover:bg-slate-50 cursor-pointer`; } else {
+                        if (opt.isCorrect) btnClass += "bg-emerald-50 border-emerald-500 text-emerald-800 shadow-sm";
+                        else if (selectedOption === opt) btnClass += "bg-rose-50 border-rose-500 text-rose-800 shadow-sm";
+                        else btnClass += "bg-slate-50 border-slate-100 text-slate-400 opacity-60";
+                        btnClass += " cursor-default";
+                    }
+                    let numClass = `w-8 h-8 md:w-10 md:h-10 flex items-center justify-center rounded-full text-xl md:text-2xl font-bold shrink-0 transition-all `;
+                    if (answered) numClass += opt.isCorrect ? 'bg-emerald-500 text-white shadow-sm' : (selectedOption === opt ? 'bg-rose-500 text-white shadow-sm' : 'bg-slate-100 text-slate-400 border border-slate-200');
+                    else numClass += `bg-white text-${theme}-600 shadow-md border border-slate-100`;
+                    let numberingHTML = `<div class="${numClass}">${toArabicNum(optIdx + 1)}</div>`;
+                    optionsHTML += `<button ${answered ? 'disabled' : ''} onclick="App.handleAnswer('${sectionId}', ${qIndex}, ${optIdx})" class="${btnClass}">${numberingHTML}<span class="relative z-10 flex-grow text-right">${opt.text}</span>${answered && opt.isCorrect ? ICONS.checkCircle : ''}${answered && selectedOption === opt && !opt.isCorrect ? ICONS.xCircle : ''}</button>`;
+                });
+                const optionsArea = document.getElementById(`options-area-${sectionId}-${qIndex}`);
+                if (optionsArea) optionsArea.innerHTML = optionsHTML;
+
+                // تحديث التغذية الراجعة
+                const feedbackArea = document.getElementById(`feedback-area-${sectionId}-${qIndex}`);
+                if (feedbackArea) {
+                    if (answered) {
+                        feedbackArea.className = `block w-full ${answerAnimate ? 'smooth-expand' : ''}`;
+                        feedbackArea.innerHTML = `<div class="mt-6 p-5 rounded-xl border text-right ${isSelectedCorrect ? 'bg-emerald-50 border-emerald-200' : 'bg-rose-50 border-rose-200'}"><div class="flex items-center justify-start gap-2 mb-3 font-bold text-xl md:text-2xl ${isSelectedCorrect ? 'text-emerald-700' : 'text-rose-700'}">${isSelectedCorrect ? `<span class="text-emerald-700">${ICONS.checkCircleLarge}</span>` : `<span class="text-rose-700">${ICONS.xCircleLarge}</span>`}<span>${isSelectedCorrect ? 'إجابة صحيحة' : 'إجابة خاطئة'}</span></div><div class="text-xl md:text-2xl font-semibold leading-relaxed ${isSelectedCorrect ? 'text-emerald-800' : 'text-rose-800'} pr-1">${q.explanation}</div></div>`;
+                    } else {
+                        feedbackArea.className = 'hidden';
+                    }
+                }
+
+                // تحديث إطار البطاقة الرئيسي
+                const mainCard = document.getElementById(`${sectionId}-q-${qIndex}`);
+                if (mainCard) {
+                    if (answered) {
+                        mainCard.classList.add('ring-2');
+                        if (isSelectedCorrect) { mainCard.classList.add('ring-emerald-400'); mainCard.classList.remove('ring-rose-400'); }
+                        else { mainCard.classList.add('ring-rose-400'); mainCard.classList.remove('ring-emerald-400'); }
+                    }
+                }
+            },
+
+            // --- دوال التحكم المعدلة ---
             toggleHint(sectionId, idx) {
                 const sectionDef = APP_DATA.sections.find(s => s.id === sectionId);
-                let qState;
                 if (sectionDef.id === 'intro') return;
+
+                let qState;
                 if (sectionDef.type === 'classify' || sectionDef.type === 'sort') {
                     qState = this.state.sectionData[sectionId].questions[idx];
                 } else if (sectionDef.type === 'flashcards') {
@@ -901,22 +1147,25 @@
                     qState = this.state.sectionData[sectionId][idx];
                 }
 
-                if (!qState.showHint) {
-                    qState.showHint = true;
-                    qState.hintAnimate = true;
-                } else {
-                    qState.showHint = false;
-                    qState.hintAnimate = false;
-                }
+                qState.showHint = !qState.showHint;
+                qState.hintAnimate = qState.showHint;
 
+                // تحديث واجهة المستخدم
                 if (sectionDef.type === 'classify' || sectionDef.type === 'sort' || sectionDef.type === 'flashcards') {
-                    this.updateUI();
-                } else if (sectionDef.type === 'error_correction') {
-                    document.getElementById(`${sectionId}-wrapper-${idx}`).innerHTML = this.renderErrorCard(qState, idx, sectionDef.theme, sectionId);
-                } else if (sectionDef.type === 'spotting') {
-                    document.getElementById(`${sectionId}-wrapper-${idx}`).innerHTML = this.renderSpottingCard(qState, idx, sectionDef.theme, sectionId);
+                    this.updateUI(); // التحديث الشامل مناسب هنا لعدم وجود قفزات ملحوظة (بطاقة مفردة)
                 } else {
-                    document.getElementById(`${sectionId}-wrapper-${idx}`).innerHTML = this.renderQuestionCard(qState, idx, sectionId, sectionDef.theme, sectionDef.type);
+                    // التحديث الجزئي عبر تعديل الأصناف مباشرة لمنع إعادة بناء البطاقة وقفز الشاشة
+                    const hintArea = document.getElementById(`hint-area-${sectionId}-${idx}`);
+                    if (hintArea) {
+                        if (qState.showHint) {
+                            hintArea.classList.remove('hidden');
+                            hintArea.classList.add('block', 'w-full');
+                            if (qState.hintAnimate) hintArea.classList.add('smooth-expand');
+                        } else {
+                            hintArea.classList.add('hidden');
+                            hintArea.classList.remove('block', 'w-full', 'smooth-expand');
+                        }
+                    }
                 }
             },
             
@@ -926,7 +1175,11 @@
                 qState.answerAnimate = true;
                 this.recordProgress(sectionId, selectedOption.isCorrect);
                 const progress = this.state.progress[sectionId]; 
-                if (progress.answered === progress.total) { this.updateUI(); } else { const sectionDef = APP_DATA.sections.find(s => s.id === sectionId); document.getElementById(`${sectionId}-wrapper-${qIndex}`).innerHTML = this.renderQuestionCard(qState, qIndex, sectionId, sectionDef.theme, sectionDef.type); this.updateTabs(); this.checkFinalEvaluation(); }
+                if (progress.answered === progress.total) { this.updateUI(); } else { 
+                    const sectionDef = APP_DATA.sections.find(s => s.id === sectionId); 
+                    this.updateStandardCardPartial(sectionId, qIndex, sectionDef.theme);
+                    this.updateTabs(); this.checkFinalEvaluation(); 
+                }
             },
             
             handleErrorWordClick(sectionId, qIndex, wIndex) {
@@ -935,16 +1188,14 @@
                 if (isCorrectError) { 
                     qState.selectedWordIndex = wIndex; 
                     qState.step = 2; 
-                    qState.optionsAnimate = true; // تفعيل حركة الظهور السلس للخيارات
+                    qState.optionsAnimate = true;
                     qState.shakeWordIndex = null; 
-                    // الحفاظ على حالة التلميح وحركته إذا كان مفتوحاً
                     if (qState.showHint) qState.hintAnimate = false; 
                 } else { 
                     qState.shakeWordIndex = wIndex; 
-                    setTimeout(() => { if (this.state.sectionData[sectionId][qIndex]) { this.state.sectionData[sectionId][qIndex].shakeWordIndex = null; const sectionDef = APP_DATA.sections.find(s => s.id === sectionId); document.getElementById(`${sectionId}-wrapper-${qIndex}`).innerHTML = this.renderErrorCard(qState, qIndex, sectionDef.theme, sectionId); } }, 500); 
+                    setTimeout(() => { if (this.state.sectionData[sectionId][qIndex]) { this.state.sectionData[sectionId][qIndex].shakeWordIndex = null; this.updateErrorCardPartial(sectionId, qIndex); } }, 500); 
                 }
-                const sectionDef = APP_DATA.sections.find(s => s.id === sectionId); 
-                document.getElementById(`${sectionId}-wrapper-${qIndex}`).innerHTML = this.renderErrorCard(qState, qIndex, sectionDef.theme, sectionId);
+                this.updateErrorCardPartial(sectionId, qIndex);
             },
 
             handleErrorOptionClick(sectionId, qIndex, optIndex) {
@@ -953,7 +1204,11 @@
                 qState.answerAnimate = true;
                 qState.optionsAnimate = false;
                 this.recordProgress(sectionId, selectedOption.isCorrect);
-                const progress = this.state.progress[sectionId]; if (progress.answered === progress.total) { this.updateUI(); } else { const sectionDef = APP_DATA.sections.find(s => s.id === sectionId); document.getElementById(`${sectionId}-wrapper-${qIndex}`).innerHTML = this.renderErrorCard(qState, qIndex, sectionDef.theme, sectionId); this.updateTabs(); this.checkFinalEvaluation(); }
+                const progress = this.state.progress[sectionId]; 
+                if (progress.answered === progress.total) { this.updateUI(); } else { 
+                    this.updateErrorCardPartial(sectionId, qIndex); 
+                    this.updateTabs(); this.checkFinalEvaluation(); 
+                }
             },
 
             handleSpottingWordClick(sectionId, qIndex, wIndex) {
@@ -968,12 +1223,12 @@
                     const sectionDef = APP_DATA.sections.find(s => s.id === sectionId);
                     const progress = this.state.progress[sectionId];
                     if (progress.answered === progress.total) { this.updateUI(); }
-                    else { document.getElementById(`${sectionId}-wrapper-${qIndex}`).innerHTML = this.renderSpottingCard(qState, qIndex, sectionDef.theme, sectionId); this.updateTabs(); this.checkFinalEvaluation(); }
+                    else { this.updateSpottingCardPartial(sectionId, qIndex, sectionDef.theme); this.updateTabs(); this.checkFinalEvaluation(); }
                 } else {
                     qState.shakeWordIndex = wIndex;
                     const sectionDef = APP_DATA.sections.find(s => s.id === sectionId);
-                    document.getElementById(`${sectionId}-wrapper-${qIndex}`).innerHTML = this.renderSpottingCard(qState, qIndex, sectionDef.theme, sectionId);
-                    setTimeout(() => { if (this.state.sectionData[sectionId][qIndex]) { this.state.sectionData[sectionId][qIndex].shakeWordIndex = null; document.getElementById(`${sectionId}-wrapper-${qIndex}`).innerHTML = this.renderSpottingCard(qState, qIndex, sectionDef.theme, sectionId); } }, 500);
+                    this.updateSpottingCardPartial(sectionId, qIndex, sectionDef.theme);
+                    setTimeout(() => { if (this.state.sectionData[sectionId][qIndex]) { this.state.sectionData[sectionId][qIndex].shakeWordIndex = null; this.updateSpottingCardPartial(sectionId, qIndex, sectionDef.theme); } }, 500);
                 }
             },
             
