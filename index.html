@@ -512,7 +512,6 @@
                 });
             },
             renderLayout() {
-                // 🛑 [AI GUARD]: ممنوع تعديل الهيكل الأساسي أو الترويسة (Header) أو التذييل (Footer)
                 const root = document.getElementById('app-root');
                 let sectionsContainers = '';
                 APP_DATA.sections.forEach(sec => { sectionsContainers += `<div id="section-${sec.id}" class="hidden"></div>`; });
@@ -713,9 +712,14 @@
                 const showHint = currentQState ? currentQState.showHint : false;
                 const hintFadeClass = currentQState && currentQState.hintAnimate ? 'smooth-expand' : '';
 
-                html += `<div class="relative w-full min-h-[12rem] bg-slate-50 rounded-3xl border-2 border-dashed border-slate-300 flex flex-col items-center justify-center p-4 md:p-6 transition-all duration-500">${!isComplete ? `<div class="w-full max-w-2xl bg-white p-5 md:p-8 rounded-2xl shadow-lg border-2 border-slate-200 transition-all transform leading-snug flex flex-col justify-start z-10 ${animatingOut ? 'fly-out' : 'fade-in'} ${status === 'incorrect' ? 'shake' : ''}"><div class="flex items-center justify-between mb-4"><span class="text-${theme}-600 font-bold text-lg md:text-xl">البطاقة ${toArabicNum(currentIndex + 1)}</span><button onclick="App.toggleHint('${sectionId}', ${currentIndex})" class="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-lg md:text-xl font-bold transition-all active:scale-95 text-amber-500 md:hover:bg-amber-50">💡 تلميح</button></div><h3 class="text-3xl md:text-4xl font-bold leading-snug text-slate-800 text-center">«${currentQState.originalQuestion.text}»</h3><div id="hint-area-${sectionId}-${currentIndex}" class="${showHint ? `block w-full ${hintFadeClass}` : 'hidden'} mt-4"><div class="bg-amber-50 text-amber-900 p-4 rounded-xl text-xl font-medium border border-amber-200 flex gap-2 items-start text-right"><span class="text-amber-500 font-semibold mt-1 shrink-0">💡</span><span class="leading-relaxed">${currentQState.originalQuestion.hint}</span></div></div><div class="${status === 'incorrect' ? 'block w-full smooth-expand' : 'hidden'} mt-5"><div class="p-4 bg-rose-50 border border-rose-200 rounded-xl text-center text-rose-700 text-lg md:text-xl font-bold shadow-sm">⚠️ إجابة خاطئة! ${currentQState.originalQuestion.explanation}</div></div></div>` : `<div class="text-3xl md:text-4xl font-bold text-emerald-500 flex flex-col items-center gap-4 fade-in py-6"><span class="text-6xl">🎉</span><span>اكتمل فرز البطاقات!</span></div>`}</div>${!isComplete ? `<div class="flex flex-row w-full max-w-2xl mx-auto gap-2 md:gap-4 mt-2 relative z-0 flex-wrap justify-center">${boxesHTML}</div>` : ''}</div>`;
+                html += `<div id="sort-top-area-${sectionId}" class="relative w-full min-h-[12rem] bg-slate-50 rounded-3xl border-2 border-dashed border-slate-300 flex flex-col items-center justify-center p-4 md:p-6 transition-all duration-500">${!isComplete ? `<div class="w-full max-w-2xl bg-white p-5 md:p-8 rounded-2xl shadow-lg border-2 border-slate-200 transition-all transform leading-snug flex flex-col justify-start z-10 ${animatingOut ? 'fly-out' : 'fade-in'} ${status === 'incorrect' ? 'shake' : ''}"><div class="flex items-center justify-between mb-4"><span class="text-${theme}-600 font-bold text-lg md:text-xl">البطاقة ${toArabicNum(currentIndex + 1)}</span><button onclick="App.toggleHint('${sectionId}', ${currentIndex})" class="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-lg md:text-xl font-bold transition-all active:scale-95 text-amber-500 md:hover:bg-amber-50">💡 تلميح</button></div><h3 class="text-3xl md:text-4xl font-bold leading-snug text-slate-800 text-center">«${currentQState.originalQuestion.text}»</h3><div id="hint-area-${sectionId}-${currentIndex}" class="${showHint ? `block w-full ${hintFadeClass}` : 'hidden'} mt-4"><div class="bg-amber-50 text-amber-900 p-4 rounded-xl text-xl font-medium border border-amber-200 flex gap-2 items-start text-right"><span class="text-amber-500 font-semibold mt-1 shrink-0">💡</span><span class="leading-relaxed">${currentQState.originalQuestion.hint}</span></div></div><div class="${status === 'incorrect' ? 'block w-full smooth-expand' : 'hidden'} mt-5"><div class="p-4 bg-rose-50 border border-rose-200 rounded-xl text-center text-rose-700 text-lg md:text-xl font-bold shadow-sm">⚠️ إجابة خاطئة! ${currentQState.originalQuestion.explanation}</div></div></div>` : `<div class="text-3xl md:text-4xl font-bold text-emerald-500 flex flex-col items-center gap-4 fade-in py-6"><span class="text-6xl">🎉</span><span>اكتمل فرز البطاقات!</span></div>`}</div>`;
+                html += `<div id="sort-boxes-area-${sectionId}" class="flex flex-row w-full max-w-2xl mx-auto gap-2 md:gap-4 mt-2 relative z-0 flex-wrap justify-center">${!isComplete ? boxesHTML : ''}</div></div>`;
+                
+                html += `<div id="section-result-area-${sectionId}">`;
                 if (isComplete) { const progress = this.state.progress[sectionId]; html += `<div class="mt-12 p-8 md:p-10 bg-white border-2 border-${theme}-200 rounded-2xl shadow-sm text-center smooth-expand max-w-2xl mx-auto w-full"><h3 class="text-2xl md:text-3xl font-semibold text-slate-700 mb-6">نتيجتك في قسم (${sectionData.title})</h3><div class="text-4xl md:text-5xl font-bold text-${theme}-600 flex items-center justify-center gap-3"><span>${toArabicNum(progress.score)}</span><span class="text-2xl md:text-3xl text-slate-400 font-medium mt-1">من</span><span>${toArabicNum(progress.total)}</span></div></div>`; }
-                html += `<div id="section-footer-area-${sectionId}" class="w-full">` + this.renderSectionFooterControls(sectionId, isComplete) + `</div>`; return html;
+                html += `</div>`;
+                html += `<div id="section-footer-area-${sectionId}" class="w-full">` + this.renderSectionFooterControls(sectionId, isComplete) + `</div>`; 
+                return html;
             },
 
             renderSpotting(sectionData) {
@@ -884,14 +888,18 @@
                 const sectionId = sectionData.id; const theme = sectionData.theme; const state = this.state.sectionData[sectionId]; const { cards, currentIndex, isFlipped, animatingOut } = state; const isComplete = currentIndex >= cards.length;
                 let html = `<div class="flex flex-col items-center w-full gap-6 fade-in">`;
                 if (sectionData.description) { html += `<div class="text-center w-full"><p class="text-lg md:text-xl text-${theme}-800 font-semibold bg-${theme}-50 bg-opacity-60 p-4 md:p-5 rounded-2xl shadow-sm">${sectionData.description}</p></div>`; }
-                html += `<div class="relative w-full min-h-[20rem] flex flex-col items-center justify-center p-4 md:p-6 transition-all duration-500 perspective">`;
+                html += `<div id="flashcards-area-${sectionId}" class="relative w-full min-h-[20rem] flex flex-col items-center justify-center p-4 md:p-6 transition-all duration-500 perspective">`;
                 if (!isComplete) {
                     const card = cards[currentIndex]; const flippedClass = isFlipped ? 'rotate-y-180' : '';
                     html += `<div class="w-full max-w-lg h-80 relative perspective ${animatingOut ? 'fly-out' : 'fade-in'}"><div id="flashcard-inner-${sectionId}" class="w-full h-full absolute preserve-3d flip-transition cursor-pointer active:scale-[0.98] ${flippedClass}" onclick="App.handleFlashcardFlip('${sectionId}')"><div class="absolute w-full h-full backface-hidden bg-white border-2 border-slate-200 rounded-3xl shadow-lg flex flex-col items-center justify-center p-8 text-center md:hover:border-${theme}-300 md:hover:shadow-xl transition-all"><span class="absolute top-6 right-6 text-${theme}-600 font-bold text-lg md:text-xl">البطاقة ${toArabicNum(currentIndex + 1)}</span><div class="text-slate-400 mb-4">${ICONS.flipIcon}</div><h3 class="text-4xl md:text-5xl font-bold text-slate-800 leading-snug">${card.front}</h3></div><div class="absolute w-full h-full backface-hidden bg-slate-50 border-2 border-${theme}-400 rounded-3xl shadow-lg flex flex-col items-center justify-center p-8 text-center rotate-y-180"><h3 class="text-3xl font-bold text-${theme}-700 mb-4">${card.back}</h3><p class="text-xl font-medium text-slate-700 leading-relaxed mb-6">${card.explanation}</p><div class="w-full grid grid-cols-2 gap-3 mt-auto relative z-20" onclick="event.stopPropagation()"><button onclick="App.handleFlashcardAnswer('${sectionId}', true)" class="bg-emerald-500 md:hover:bg-emerald-600 text-white font-bold py-3 rounded-xl transition-transform active:scale-95 shadow-md flex items-center justify-center gap-2 text-lg">${ICONS.checkCircle} عرفتها</button><button onclick="App.handleFlashcardAnswer('${sectionId}', false)" class="bg-rose-500 md:hover:bg-rose-600 text-white font-bold py-3 rounded-xl transition-transform active:scale-95 shadow-md flex items-center justify-center gap-2 text-lg">${ICONS.xCircle} أخطأت</button></div></div></div></div>`;
                 } else { html += `<div class="text-3xl md:text-4xl font-bold text-emerald-500 flex flex-col items-center gap-4 fade-in py-10 bg-white border-2 border-emerald-200 w-full max-w-lg rounded-3xl shadow-lg"><span class="text-6xl">🏆</span><span>انتهت البطاقات!</span></div>`; }
                 html += `</div></div>`;
+                
+                html += `<div id="section-result-area-${sectionId}">`;
                 if (isComplete) { const progress = this.state.progress[sectionId]; html += `<div class="mt-8 p-8 md:p-10 bg-white border-2 border-${theme}-200 rounded-2xl shadow-sm text-center smooth-expand max-w-2xl mx-auto w-full"><h3 class="text-2xl md:text-3xl font-semibold text-slate-700 mb-6">نتيجتك في قسم (${sectionData.title})</h3><div class="text-4xl md:text-5xl font-bold text-${theme}-600 flex items-center justify-center gap-3"><span>${toArabicNum(progress.score)}</span><span class="text-2xl md:text-3xl text-slate-400 font-medium mt-1">من</span><span>${toArabicNum(progress.total)}</span></div></div>`; }
-                html += `<div id="section-footer-area-${sectionId}" class="w-full">` + this.renderSectionFooterControls(sectionId, isComplete) + `</div>`; return html;
+                html += `</div>`;
+                html += `<div id="section-footer-area-${sectionId}" class="w-full">` + this.renderSectionFooterControls(sectionId, isComplete) + `</div>`; 
+                return html;
             },
             
             // --- دالة عرض التصنيف (البطاقة المدمجة ذات التثبيت العلوي) ---
@@ -983,7 +991,7 @@
                 }
 
                 // --- الحاوية الخارجية (تثبيت القمة - Top Pinning) مع الارتفاع الديناميكي ---
-                html += `<div class="relative w-full min-h-[15rem] transition-all duration-500 ease-in-out bg-slate-50 rounded-3xl border-2 border-dashed border-slate-300 flex flex-col items-center justify-start pt-8 md:pt-12 px-4 pb-8 md:px-6">`;
+                html += `<div id="classify-top-area-${sectionId}" class="relative w-full min-h-[15rem] transition-all duration-500 ease-in-out bg-slate-50 rounded-3xl border-2 border-dashed border-slate-300 flex flex-col items-center justify-start pt-8 md:pt-12 px-4 pb-8 md:px-6">`;
 
                 if (currentQuestion) {
                     html += `
@@ -1010,11 +1018,15 @@
                 } else {
                     html += `<div class="w-full flex-grow flex flex-col items-center justify-center"><div class="text-3xl md:text-4xl font-bold text-emerald-500 flex flex-col items-center gap-4 fade-in py-6"><span class="text-6xl">🎉</span><span>اكتملت الصناديق بنجاح!</span></div></div>`;
                 }
-                html += `</div><div class="w-full grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">${glassyTraysHTML}</div></div>`;
+                html += `</div>`;
+                html += `<div id="classify-trays-area-${sectionId}" class="w-full grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">${glassyTraysHTML}</div></div>`;
+                
+                html += `<div id="section-result-area-${sectionId}">`;
                 if (isComplete) {
                     const progress = this.state.progress[sectionId];
                     html += `<div class="mt-12 p-8 md:p-10 bg-white border-2 border-${theme}-200 rounded-2xl shadow-sm text-center smooth-expand max-w-2xl mx-auto w-full"><h3 class="text-2xl md:text-3xl font-semibold text-slate-700 mb-6">نتيجتك في قسم (${sectionData.title})</h3><div class="text-4xl md:text-5xl font-bold text-${theme}-600 flex items-center justify-center gap-3"><span>${toArabicNum(progress.score)}</span><span class="text-2xl md:text-3xl text-slate-400 font-medium mt-1">من</span><span>${toArabicNum(progress.total)}</span></div></div>`;
                 }
+                html += `</div>`;
                 html += `<div id="section-footer-area-${sectionId}" class="w-full">` + this.renderSectionFooterControls(sectionId, isComplete) + `</div>`;
                 return html;
             },
@@ -1025,6 +1037,183 @@
             },
             
             // --- دوال التحديث الجزئي للبطاقات (Partial Updates) ---
+            updateClassifyPartial(sectionId) {
+                const sectionData = APP_DATA.sections.find(s => s.id === sectionId);
+                const state = this.state.sectionData[sectionId];
+                const { questions, currentIndex, status, placedItems, animatingOut } = state;
+                const isComplete = currentIndex >= questions.length;
+                const theme = sectionData.theme;
+
+                const currentQState = isComplete ? null : questions[currentIndex];
+                const currentQuestion = isComplete ? null : currentQState.originalQuestion;
+                const showHint = isComplete ? false : currentQState.showHint;
+                const hintFadeClass = (currentQState && currentQState.hintAnimate) ? 'smooth-expand' : '';
+                const shakeClass = status === 'incorrect' ? 'shake' : '';
+                const disablePanelClass = (animatingOut || status === 'correct') ? 'pointer-events-none' : '';
+
+                // تحديث المنطقة العلوية (البطاقة)
+                const topArea = document.getElementById(`classify-top-area-${sectionId}`);
+                if (topArea) {
+                    let html = '';
+                    if (currentQuestion) {
+                        let actionButtonsHTML = `<div class="w-full mt-4 border-t-2 border-slate-100 pt-6 flex flex-wrap justify-center gap-3 ${disablePanelClass}">`;
+                        sectionData.categories.forEach(cat => {
+                            const btnTheme = cat.theme || 'sky';
+                            let btnClass = `flex-1 min-w-[120px] max-w-[200px] flex items-center justify-center min-h-[4.5rem] md:min-h-[5rem] px-4 py-3 rounded-xl font-bold text-lg md:text-xl transition-all duration-300 border-2 text-center leading-snug `;
+                            if (!animatingOut && status !== 'correct') {
+                                btnClass += `bg-${btnTheme}-50 border-${btnTheme}-200 text-${btnTheme}-700 md:hover:bg-${btnTheme}-100 md:hover:border-${btnTheme}-400 md:hover:-translate-y-1 active:scale-95 shadow-sm cursor-pointer`;
+                            } else {
+                                btnClass += `bg-slate-50 border-slate-200 text-slate-400 opacity-60 cursor-default`;
+                            }
+                            actionButtonsHTML += `<button ${(!animatingOut && status !== 'correct') ? `onclick="App.handleClassifyClick('${sectionId}', '${cat.id}')"` : 'disabled'} class="${btnClass}">${cat.label}</button>`;
+                        });
+                        actionButtonsHTML += `</div>`;
+
+                        html = `
+                        <div id="classify-card" class="w-full max-w-2xl bg-white p-5 md:p-8 rounded-2xl shadow-xl border-2 border-slate-200 leading-snug flex flex-col justify-start z-10 ${animatingOut ? 'fly-out' : 'fade-in'} ${shakeClass}">
+                            <div class="flex items-center justify-between mb-4">
+                                <span class="text-${theme}-600 font-bold text-lg md:text-xl">البطاقة ${toArabicNum(currentIndex + 1)}</span>
+                                <button onclick="App.toggleHint('${sectionId}', ${currentIndex})" class="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-lg md:text-xl font-bold transition-all active:scale-95 text-amber-500 md:hover:bg-amber-50">💡 تلميح</button>
+                            </div>
+                            <span class="block mb-4 text-slate-500 text-sm md:text-base font-medium text-center">إلى أي صندوق تنتمي هذه البطاقة؟</span>
+                            <div class="w-full min-h-[8rem] md:min-h-[10rem] flex flex-col items-center justify-center mb-2">
+                                <h3 class="text-3xl md:text-4xl font-bold leading-snug text-slate-800 text-center">«${currentQuestion.text}»</h3>
+                            </div>
+                            <div id="hint-area-${sectionId}-${currentIndex}" class="${showHint ? `block w-full mb-4 ${hintFadeClass}` : 'hidden'}">
+                                <div class="bg-amber-50 text-amber-900 p-4 rounded-xl text-xl font-medium border border-amber-200 flex gap-2 items-start text-right">
+                                    <span class="text-amber-500 font-semibold mt-1 shrink-0">💡</span>
+                                    <span class="leading-relaxed">${currentQuestion.hint}</span>
+                                </div>
+                            </div>
+                            <div class="${status === 'incorrect' ? 'block w-full smooth-expand' : 'hidden'} mb-4">
+                                <div class="p-4 bg-rose-50 border border-rose-200 rounded-xl text-center text-rose-700 text-lg md:text-xl font-bold shadow-sm">⚠️ ${currentQuestion.explanation}</div>
+                            </div>
+                            ${actionButtonsHTML}
+                        </div>`;
+                    } else {
+                        html = `<div class="w-full flex-grow flex flex-col items-center justify-center"><div class="text-3xl md:text-4xl font-bold text-emerald-500 flex flex-col items-center gap-4 fade-in py-6"><span class="text-6xl">🎉</span><span>اكتملت الصناديق بنجاح!</span></div></div>`;
+                    }
+                    topArea.innerHTML = html;
+                }
+
+                // تحديث منطقة الصناديق
+                const traysArea = document.getElementById(`classify-trays-area-${sectionId}`);
+                if (traysArea) {
+                    let glassyTraysHTML = '';
+                    sectionData.categories.forEach(cat => {
+                        const boxTheme = cat.theme || 'sky';
+                        const placedHtml = placedItems[cat.id].map(item => `
+                            <div class="mt-3 p-3 md:p-4 rounded-xl text-xl md:text-2xl font-bold bg-white border-r-4 border-${boxTheme}-400 shadow-md leading-snug text-center text-slate-800 relative z-10 fade-in">
+                                ${item.text}
+                            </div>
+                        `).join('');
+                        let boxClass = `flex flex-col w-full pt-6 pb-5 px-5 md:px-6 rounded-[2.5rem] bg-white/50 backdrop-blur-sm border-2 border-slate-300 shadow-[inset_0_2px_8px_rgba(0,0,0,0.03)] min-h-[14rem] relative overflow-hidden`;
+                        const headerIcon = ICONS.tray.replace('w-8 h-8 md:w-12 md:h-12 mb-2 opacity-80', `w-6 h-6 md:w-8 md:h-8 text-${boxTheme}-600 shrink-0`);
+                        const watermarkIcon = ICONS.tray.replace('w-8 h-8 md:w-12 md:h-12 mb-2 opacity-80', 'w-full h-full');
+
+                        glassyTraysHTML += `
+                        <div class="${boxClass}">
+                            <div class="absolute top-0 left-0 w-full h-2 bg-${boxTheme}-400 opacity-60 z-10"></div>
+                            <div class="absolute -bottom-10 -left-10 w-40 h-40 text-${boxTheme}-200 opacity-10 transform -rotate-12 scale-150 pointer-events-none z-0 flex items-center justify-center">
+                                ${watermarkIcon}
+                            </div>
+                            <div class="flex flex-col items-center justify-center w-full relative z-10 mb-1">
+                                <div class="flex items-center justify-center gap-3">
+                                    <div class="bg-white shadow-sm rounded-full p-2 border border-slate-100 flex items-center justify-center shrink-0">
+                                        ${headerIcon}
+                                    </div>
+                                    <h3 class="font-bold text-2xl md:text-3xl text-slate-900 text-center">${cat.label}</h3>
+                                </div>
+                            </div>
+                            <div class="h-px bg-slate-300 w-2/3 mx-auto my-3 relative z-10"></div>
+                            <div class="flex flex-col gap-2 flex-grow relative z-10">
+                                ${placedHtml}
+                            </div>
+                        </div>`;
+                    });
+                    traysArea.innerHTML = glassyTraysHTML;
+                }
+
+                if (isComplete) {
+                    const progress = this.state.progress[sectionId];
+                    this.showSectionResult(sectionId, sectionData, progress);
+                }
+            },
+
+            updateFlashcardsPartial(sectionId) {
+                const sectionData = APP_DATA.sections.find(s => s.id === sectionId);
+                const state = this.state.sectionData[sectionId];
+                const { cards, currentIndex, isFlipped, animatingOut } = state;
+                const isComplete = currentIndex >= cards.length;
+                const theme = sectionData.theme;
+
+                const area = document.getElementById(`flashcards-area-${sectionId}`);
+                if (area) {
+                    let html = '';
+                    if (!isComplete) {
+                        const card = cards[currentIndex];
+                        const flippedClass = isFlipped ? 'rotate-y-180' : '';
+                        html = `<div class="w-full max-w-lg h-80 relative perspective ${animatingOut ? 'fly-out' : 'fade-in'}"><div id="flashcard-inner-${sectionId}" class="w-full h-full absolute preserve-3d flip-transition cursor-pointer active:scale-[0.98] ${flippedClass}" onclick="App.handleFlashcardFlip('${sectionId}')"><div class="absolute w-full h-full backface-hidden bg-white border-2 border-slate-200 rounded-3xl shadow-lg flex flex-col items-center justify-center p-8 text-center md:hover:border-${theme}-300 md:hover:shadow-xl transition-all"><span class="absolute top-6 right-6 text-${theme}-600 font-bold text-lg md:text-xl">البطاقة ${toArabicNum(currentIndex + 1)}</span><div class="text-slate-400 mb-4">${ICONS.flipIcon}</div><h3 class="text-4xl md:text-5xl font-bold text-slate-800 leading-snug">${card.front}</h3></div><div class="absolute w-full h-full backface-hidden bg-slate-50 border-2 border-${theme}-400 rounded-3xl shadow-lg flex flex-col items-center justify-center p-8 text-center rotate-y-180"><h3 class="text-3xl font-bold text-${theme}-700 mb-4">${card.back}</h3><p class="text-xl font-medium text-slate-700 leading-relaxed mb-6">${card.explanation}</p><div class="w-full grid grid-cols-2 gap-3 mt-auto relative z-20" onclick="event.stopPropagation()"><button onclick="App.handleFlashcardAnswer('${sectionId}', true)" class="bg-emerald-500 md:hover:bg-emerald-600 text-white font-bold py-3 rounded-xl transition-transform active:scale-95 shadow-md flex items-center justify-center gap-2 text-lg">${ICONS.checkCircle} عرفتها</button><button onclick="App.handleFlashcardAnswer('${sectionId}', false)" class="bg-rose-500 md:hover:bg-rose-600 text-white font-bold py-3 rounded-xl transition-transform active:scale-95 shadow-md flex items-center justify-center gap-2 text-lg">${ICONS.xCircle} أخطأت</button></div></div></div></div>`;
+                    } else {
+                        html = `<div class="text-3xl md:text-4xl font-bold text-emerald-500 flex flex-col items-center gap-4 fade-in py-10 bg-white border-2 border-emerald-200 w-full max-w-lg rounded-3xl shadow-lg"><span class="text-6xl">🏆</span><span>انتهت البطاقات!</span></div>`;
+                    }
+                    area.innerHTML = html;
+                }
+
+                if (isComplete) {
+                    const progress = this.state.progress[sectionId];
+                    this.showSectionResult(sectionId, sectionData, progress);
+                }
+            },
+
+            updateSortPartial(sectionId) {
+                const sectionData = APP_DATA.sections.find(s => s.id === sectionId);
+                const state = this.state.sectionData[sectionId];
+                const { questions, currentIndex, status, animatingOut } = state;
+                const isComplete = currentIndex >= questions.length;
+                const theme = sectionData.theme;
+
+                const topArea = document.getElementById(`sort-top-area-${sectionId}`);
+                const boxesArea = document.getElementById(`sort-boxes-area-${sectionId}`);
+
+                if (topArea) {
+                    const currentQState = isComplete ? null : questions[currentIndex];
+                    const showHint = currentQState ? currentQState.showHint : false;
+                    const hintFadeClass = currentQState && currentQState.hintAnimate ? 'smooth-expand' : '';
+
+                    let html = '';
+                    if (!isComplete) {
+                        html = `<div class="w-full max-w-2xl bg-white p-5 md:p-8 rounded-2xl shadow-lg border-2 border-slate-200 transition-all transform leading-snug flex flex-col justify-start z-10 ${animatingOut ? 'fly-out' : 'fade-in'} ${status === 'incorrect' ? 'shake' : ''}"><div class="flex items-center justify-between mb-4"><span class="text-${theme}-600 font-bold text-lg md:text-xl">البطاقة ${toArabicNum(currentIndex + 1)}</span><button onclick="App.toggleHint('${sectionId}', ${currentIndex})" class="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-lg md:text-xl font-bold transition-all active:scale-95 text-amber-500 md:hover:bg-amber-50">💡 تلميح</button></div><h3 class="text-3xl md:text-4xl font-bold leading-snug text-slate-800 text-center">«${currentQState.originalQuestion.text}»</h3><div id="hint-area-${sectionId}-${currentIndex}" class="${showHint ? `block w-full ${hintFadeClass}` : 'hidden'} mt-4"><div class="bg-amber-50 text-amber-900 p-4 rounded-xl text-xl font-medium border border-amber-200 flex gap-2 items-start text-right"><span class="text-amber-500 font-semibold mt-1 shrink-0">💡</span><span class="leading-relaxed">${currentQState.originalQuestion.hint}</span></div></div><div class="${status === 'incorrect' ? 'block w-full smooth-expand' : 'hidden'} mt-5"><div class="p-4 bg-rose-50 border border-rose-200 rounded-xl text-center text-rose-700 text-lg md:text-xl font-bold shadow-sm">⚠️ إجابة خاطئة! ${currentQState.originalQuestion.explanation}</div></div></div>`;
+                    } else {
+                        html = `<div class="text-3xl md:text-4xl font-bold text-emerald-500 flex flex-col items-center gap-4 fade-in py-6"><span class="text-6xl">🎉</span><span>اكتمل فرز البطاقات!</span></div>`;
+                    }
+                    topArea.innerHTML = html;
+                }
+
+                if (boxesArea) {
+                    let html = '';
+                    if (!isComplete) {
+                        const colors = ['emerald', 'violet', 'cyan', 'teal', 'indigo'];
+                        state.questions[currentIndex].options.forEach((opt, idx) => {
+                            const boxTheme = colors[idx % colors.length];
+                            let btnClass = `flex-1 flex flex-col items-center justify-center p-3 md:p-5 border-2 md:border-4 rounded-xl md:rounded-2xl transition-all duration-300 border-${boxTheme}-200 text-${boxTheme}-700 bg-${boxTheme}-50 `;
+                            if (!animatingOut && status !== 'correct') {
+                                btnClass += `md:hover:border-${boxTheme}-400 md:hover:bg-${boxTheme}-100 md:hover:-translate-y-1 cursor-pointer shadow-sm md:hover:shadow-md active:scale-95`;
+                            } else {
+                                btnClass += `opacity-60 cursor-default grayscale-[30%]`;
+                            }
+                            html += `<button ${(!animatingOut && status !== 'correct') ? `onclick="App.handleDynamicSortClick('${sectionId}', ${idx})"` : 'disabled'} class="${btnClass} min-w-[120px]"><span class="font-bold text-lg md:text-xl text-center leading-snug">${opt.text}</span></button>`;
+                        });
+                    }
+                    boxesArea.innerHTML = html;
+                }
+
+                if (isComplete) {
+                    const progress = this.state.progress[sectionId];
+                    this.showSectionResult(sectionId, sectionData, progress);
+                }
+            },
+
             updateErrorCardPartial(sectionId, qIndex) {
                 const qState = this.state.sectionData[sectionId][qIndex];
                 const { originalQuestion: q, step, selectedWordIndex, selectedOption, answerAnimate, shakeWordIndex } = qState;
@@ -1195,7 +1384,7 @@
                 }
             },
 
-            // --- دوال التحكم المحدثة الخالية من DOM Redraws لزر التلميح ---
+            // --- دوال التحكم الخالية من DOM Redraws للتبويبات ---
             toggleHint(sectionId, idx) {
                 const sectionDef = APP_DATA.sections.find(s => s.id === sectionId);
                 if (sectionDef.id === 'intro') return;
@@ -1212,24 +1401,20 @@
                 qState.showHint = !qState.showHint;
                 qState.hintAnimate = qState.showHint;
 
-                if (sectionDef.type === 'flashcards') {
-                    this.updateUI(); // البطاقات القلابة لا تملك زر تلميح حالياً، ولكن كإجراء احتياطي
-                } else {
-                    const hintArea = document.getElementById(`hint-area-${sectionId}-${idx}`);
-                    if (hintArea) {
-                        if (qState.showHint) {
-                            hintArea.classList.remove('hidden');
-                            hintArea.classList.add('block', 'w-full');
-                            if (qState.hintAnimate) hintArea.classList.add('smooth-expand');
-                            
-                            // الحفاظ على الهامش السفلي في قسم التصنيف لتناسق التصميم
-                            if (sectionDef.type === 'classify') {
-                                hintArea.classList.add('mb-4');
-                            }
-                        } else {
-                            hintArea.classList.add('hidden');
-                            hintArea.classList.remove('block', 'w-full', 'smooth-expand', 'mb-4');
+                const hintArea = document.getElementById(`hint-area-${sectionId}-${idx}`);
+                if (hintArea) {
+                    if (qState.showHint) {
+                        hintArea.classList.remove('hidden');
+                        hintArea.classList.add('block', 'w-full');
+                        if (qState.hintAnimate) hintArea.classList.add('smooth-expand');
+                        
+                        // الحفاظ على الهامش السفلي في قسم التصنيف لتناسق التصميم
+                        if (sectionDef.type === 'classify') {
+                            hintArea.classList.add('mb-4');
                         }
+                    } else {
+                        hintArea.classList.add('hidden');
+                        hintArea.classList.remove('block', 'w-full', 'smooth-expand', 'mb-4');
                     }
                 }
             },
@@ -1313,26 +1498,101 @@
             },
             
             handleDynamicSortClick(sectionId, optIndex) {
-                const state = this.state.sectionData[sectionId]; if (state.status === 'correct' || state.animatingOut) return;
-                const currentQState = state.questions[state.currentIndex]; const isCorrect = currentQState.options[optIndex].isCorrect;
-                if (isCorrect) { const isFirstAttempt = state.status === 'idle'; this.state.progress[sectionId].answered++; if (isFirstAttempt) { this.state.progress[sectionId].score++; } state.status = 'correct'; state.animatingOut = true; this.updateUI(); setTimeout(() => { state.currentIndex++; state.status = 'idle'; state.animatingOut = false; this.updateUI(); }, 400); } else { state.status = 'incorrect'; this.updateUI(); }
-            },
-            handleFlashcardFlip(sectionId) { const state = this.state.sectionData[sectionId]; if (state.animatingOut) return; state.isFlipped = !state.isFlipped; const cardInner = document.getElementById(`flashcard-inner-${sectionId}`); if (cardInner) { if (state.isFlipped) cardInner.classList.add('rotate-y-180'); else cardInner.classList.remove('rotate-y-180'); } },
-            handleFlashcardAnswer(sectionId, isCorrect) {
-                const state = this.state.sectionData[sectionId]; if (state.animatingOut) return;
-                this.state.progress[sectionId].answered++; if (isCorrect) this.state.progress[sectionId].score++;
-                state.animatingOut = true; this.updateUI();
-                setTimeout(() => { state.currentIndex++; state.isFlipped = false; state.animatingOut = false; state.showHint = false; state.hintAnimate = false; if (state.currentIndex >= state.cards.length) this.checkFinalEvaluation(); this.updateUI(); }, 400);
-            },
-            handleClassifyClick(sectionId, categoryId) {
-                const state = this.state.sectionData[sectionId]; if (state.status === 'correct' || state.animatingOut) return;
-                const currentQState = state.questions[state.currentIndex]; const currentQ = currentQState.originalQuestion; const isCorrect = categoryId === currentQ.categoryId;
+                const state = this.state.sectionData[sectionId]; 
+                if (state.status === 'correct' || state.animatingOut) return;
+                
+                const currentQState = state.questions[state.currentIndex]; 
+                const isCorrect = currentQState.options[optIndex].isCorrect;
+                
                 if (isCorrect) { 
-                    const isFirstAttempt = state.status === 'idle'; this.state.progress[sectionId].answered++; if (isFirstAttempt) this.state.progress[sectionId].score++; 
-                    state.status = 'correct'; state.animatingOut = true; this.updateUI(); 
-                    setTimeout(() => { state.placedItems[categoryId].push(currentQ); state.currentIndex++; state.status = 'idle'; state.animatingOut = false; this.updateUI(); }, 400); 
-                } else { state.status = 'incorrect'; this.updateUI(); }
+                    const isFirstAttempt = state.status === 'idle'; 
+                    this.state.progress[sectionId].answered++; 
+                    if (isFirstAttempt) { this.state.progress[sectionId].score++; } 
+                    
+                    state.status = 'correct'; 
+                    state.animatingOut = true; 
+                    this.updateSortPartial(sectionId); 
+                    
+                    setTimeout(() => { 
+                        state.currentIndex++; 
+                        state.status = 'idle'; 
+                        state.animatingOut = false; 
+                        this.updateSortPartial(sectionId); 
+                        this.updateTabs();
+                        this.checkFinalEvaluation();
+                    }, 400); 
+                } else { 
+                    state.status = 'incorrect'; 
+                    this.updateSortPartial(sectionId); 
+                }
             },
+
+            handleFlashcardFlip(sectionId) { 
+                const state = this.state.sectionData[sectionId]; 
+                if (state.animatingOut) return; 
+                state.isFlipped = !state.isFlipped; 
+                const cardInner = document.getElementById(`flashcard-inner-${sectionId}`); 
+                if (cardInner) { 
+                    if (state.isFlipped) cardInner.classList.add('rotate-y-180'); 
+                    else cardInner.classList.remove('rotate-y-180'); 
+                } 
+            },
+
+            handleFlashcardAnswer(sectionId, isCorrect) {
+                const state = this.state.sectionData[sectionId]; 
+                if (state.animatingOut) return;
+                this.state.progress[sectionId].answered++; 
+                if (isCorrect) this.state.progress[sectionId].score++;
+                
+                state.animatingOut = true; 
+                this.updateFlashcardsPartial(sectionId);
+                
+                setTimeout(() => { 
+                    state.currentIndex++; 
+                    state.isFlipped = false; 
+                    state.animatingOut = false; 
+                    state.showHint = false; 
+                    state.hintAnimate = false; 
+                    
+                    this.updateFlashcardsPartial(sectionId);
+                    this.updateTabs();
+                    if (state.currentIndex >= state.cards.length) this.checkFinalEvaluation(); 
+                }, 400);
+            },
+
+            handleClassifyClick(sectionId, categoryId) {
+                const state = this.state.sectionData[sectionId]; 
+                if (state.status === 'correct' || state.animatingOut) return;
+                
+                const currentQState = state.questions[state.currentIndex]; 
+                const currentQ = currentQState.originalQuestion; 
+                const isCorrect = categoryId === currentQ.categoryId;
+                
+                if (isCorrect) { 
+                    const isFirstAttempt = state.status === 'idle'; 
+                    this.state.progress[sectionId].answered++; 
+                    if (isFirstAttempt) this.state.progress[sectionId].score++; 
+                    
+                    state.status = 'correct'; 
+                    state.animatingOut = true; 
+                    this.updateClassifyPartial(sectionId); 
+                    
+                    setTimeout(() => { 
+                        state.placedItems[categoryId].push(currentQ); 
+                        state.currentIndex++; 
+                        state.status = 'idle'; 
+                        state.animatingOut = false; 
+                        
+                        this.updateClassifyPartial(sectionId); 
+                        this.updateTabs();
+                        this.checkFinalEvaluation();
+                    }, 400); 
+                } else { 
+                    state.status = 'incorrect'; 
+                    this.updateClassifyPartial(sectionId); 
+                }
+            },
+
             recordProgress(sectionId, isCorrect) { this.state.progress[sectionId].answered++; if (isCorrect) this.state.progress[sectionId].score++; },
             scrollToContent() { requestAnimationFrame(() => { setTimeout(() => { const target = document.getElementById('scroll-target'); if (target) { const stickyTabs = document.getElementById('sticky-tabs-container'); const headerOffset = stickyTabs ? stickyTabs.offsetHeight : 80; const elementPosition = target.getBoundingClientRect().top; const offsetPosition = elementPosition + window.pageYOffset - headerOffset; window.scrollTo({ top: offsetPosition, behavior: 'smooth' }); } }, 30); }); },
             scrollTabIntoView(tabId) { requestAnimationFrame(() => { setTimeout(() => { const tabBtn = document.getElementById(`tab-${tabId}`); const container = document.getElementById('tabs-container'); if (tabBtn && container) { const containerRect = container.getBoundingClientRect(); const btnRect = tabBtn.getBoundingClientRect(); if (tabId === APP_DATA.sections[0].id) { container.scrollBy({ left: (btnRect.right - containerRect.right) + 16, behavior: 'smooth' }); } else { container.scrollBy({ left: (btnRect.left + btnRect.width / 2) - (containerRect.left + containerRect.width / 2), behavior: 'smooth' }); } } }, 30); }); },
